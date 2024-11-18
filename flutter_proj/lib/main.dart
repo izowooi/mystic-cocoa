@@ -2,11 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:Curious_Cookie/controller/user_settings_notifier.dart';
-import 'package:Curious_Cookie/model/user_settings.dart';
-import 'package:Curious_Cookie/widget/setting_widget.dart';
-import 'package:Curious_Cookie/widget/home_widget.dart';
-import 'package:Curious_Cookie/widget/story_widget.dart';
+import 'package:flutter_proj/widget/monthly_widget.dart';
 
 final navigationIndexProvider = StateProvider<int>((ref) {
   return 0;
@@ -16,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight])
       .then((_) {
-    runApp(const ProviderScope(child: MainApp()));
+    runApp(ProviderScope(child: MainApp()));
   });
   
 }
@@ -33,10 +29,10 @@ class MainApp extends ConsumerWidget {
       home: Scaffold(
         bottomNavigationBar: NavigationBar(
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.quiz), label: 'Quiz'),
-          NavigationDestination(icon: Icon(Icons.info), label: 'News'),
-          NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
+          NavigationDestination(icon: Icon(Icons.snowing), label: '올해의 운세'),
+          NavigationDestination(icon: Icon(Icons.snowshoeing), label: '12월'),
+          NavigationDestination(icon: Icon(Icons.calendar_today), label: '오늘의 운세'),
+          NavigationDestination(icon: Icon(Icons.settings), label: '설정'),
         ],
         selectedIndex: currentPageIndex,
         onDestinationSelected: (index) {
@@ -46,9 +42,9 @@ class MainApp extends ConsumerWidget {
           index: currentPageIndex,
           children: [
             MonthlyWidget(),
-            YearlyWidget(),
-            TodayWidget(),
-            SettingsWidget(),
+            MonthlyWidget(),
+            MonthlyWidget(),
+            MonthlyWidget(),
           ],
         ),
       )
