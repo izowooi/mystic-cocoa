@@ -25,51 +25,57 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
         children: [
           // Card Image
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Image.asset('assets/images/01.jpeg',
             width: 50,
             height: 90,),
           ),
           // Instruction Text
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Text(
               "신중하게 카드 5개를 골라주세요",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
           // GridView with 24 cards
           Expanded(
             flex: 5,
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 6,
-                childAspectRatio: 1.0,
+            child: Padding(padding: const EdgeInsets.symmetric(horizontal:8.0),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 6,
+                  childAspectRatio: 3/4,
+                ),
+                itemCount: 24,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Container( 
+                      width: 5,
+                      height: 5,
+                      //child:  Center(child: Text('Card ${index + 1}'))
+                      ),
+                  );
+                },
               ),
-              itemCount: 24,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Center(child: Text('Card ${index + 1}')),
-                );
-              },
             ),
           ),
           // Spacer
-          SizedBox(height: 20),
+          SizedBox(height: 5),
           // Row with 5 empty cards
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(5, (index) {
               return Card(
                 child: Container(
-                  width: 50,
-                  height: 70,
+                  width: 40,
+                  height: 60,
                 ),
               );
             }),
           ),
           // Spacer
-          SizedBox(height: 20),
+          SizedBox(height: 5),
           // Buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -85,7 +91,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
             ],
           ),
           // Spacer
-          SizedBox(height: 20),
+          SizedBox(height: 5),
         ],
       ),
     );
