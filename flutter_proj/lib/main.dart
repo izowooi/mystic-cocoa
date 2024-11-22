@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_proj/widget/monthly_widget.dart';
 import 'package:flutter_proj/widget/tarot_result_widget.dart';
+import 'package:flutter_proj/widget/loading_test_widget.dart';
 
 final navigationIndexProvider = StateProvider<int>((ref) {
   return 0;
@@ -70,7 +71,7 @@ class MainApp extends ConsumerWidget {
               title: 'Tarot Result',
               cardDataList: tarotList,
             ),
-            MonthlyWidget(),
+            const LoadingTestWidget(),
             MonthlyWidget(),
           ],
         ),

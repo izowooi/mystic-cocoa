@@ -66,6 +66,7 @@ flutter:
     - assets/images/financial.jpeg
     - assets/images/health.jpeg
     - assets/images/love.jpeg
+    - assets/images/loading.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
