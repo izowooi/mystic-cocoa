@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proj/widget/loading_widget.dart';
 
 class LoadingTestWidget extends StatelessWidget {
   const LoadingTestWidget({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class LoadingTestWidget extends StatelessWidget {
                 // 텍스트 위
                 const Text(
                   '위 텍스트입니다.',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
                 ),
                 const SizedBox(height: 40),
                 // 이미지
@@ -35,49 +36,7 @@ class LoadingTestWidget extends StatelessWidget {
             ),
           ),
 
-          // 로딩 위젯
-          Align(
-            alignment: Alignment.center,
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Colors.black.withOpacity(0.5), // 반투명 배경
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // 첫 번째 이미지
-                  Image.asset(
-                    'assets/images/01.jpeg',
-                    width: 50,
-                    height: 50,
-                  ),
-                  const SizedBox(height: 16),
-                  // 두 번째 이미지와 텍스트
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      // 이미지 배경
-                      Image.asset(
-                        'assets/images/loading.jpeg',
-                        width: 200,
-                        height: 400,
-                        fit: BoxFit.cover,
-                      ),
-                      // 텍스트
-                      const Text(
-                        '로딩 중...',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          const LoadingWidget(message: '선택한 카드를 분석 중입니다')
         ],
       ),
     );
