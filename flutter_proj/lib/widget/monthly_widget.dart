@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_flip_card/flutter_flip_card.dart';
 
 class MonthlyWidget extends ConsumerStatefulWidget {
   MonthlyWidget({Key? key}) : super(key: key);
@@ -43,18 +44,31 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
             flex: 5,
             child: Padding(padding: const EdgeInsets.symmetric(horizontal:8.0),
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 6,
-                  childAspectRatio: 3/4,
+                  childAspectRatio: 3 / 4,
                 ),
                 itemCount: 24,
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: Container( 
-                      width: 5,
-                      height: 5,
-                      //child:  Center(child: Text('Card ${index + 1}'))
+                  final controller = FlipCardController();
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0), // 여백 추가
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.flipcard();
+                      },
+                      child: FlipCard(
+                        controller: controller,
+                        rotateSide: RotateSide.right,
+                        frontWidget: Card(
+                          child: Center(child: Text('Card ${index + 1}')),
+                        ),
+                        backWidget: Card(
+                          color: Colors.blue,
+                          child: Center(child: Text('Back ${index + 1}')),
+                        ),
                       ),
+                    ),
                   );
                 },
               ),
