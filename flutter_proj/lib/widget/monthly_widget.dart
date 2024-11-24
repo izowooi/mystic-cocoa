@@ -61,17 +61,14 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
                         controller: controller,
                         rotateSide: RotateSide.right,
                         frontWidget: Card(
+                          color: Colors.blue,
                           child: Center(child: Image.asset(
                             'assets/images/back_of_card.jpeg',
                             fit: BoxFit.fill)
                           ),
                         ),
                         backWidget: Card(
-                          color: Colors.blue,
-                          child: Center(child: Image.asset(
-                            'assets/images/back_of_card.jpeg',
-                            fit: BoxFit.fill)
-                          ),
+                          child: Center(child: Text('Card ${index + 1}')),
                         ),
                       ),
                     ),
