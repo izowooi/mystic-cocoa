@@ -10,11 +10,23 @@ class MonthlyWidget extends ConsumerStatefulWidget {
 }
 
 class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
+  List<String> imagePaths = List.generate(
+    24,
+    (index) => 'assets/images/major_arcana_${index.toString().padLeft(2, '0')}.jpeg',
+  );
+  
   @override
   void initState() {
     super.initState();
+    imagePaths.shuffle(); // 초기화 시 리스트를 섞습니다.
   }
-
+  
+  void shuffleImages() {
+    setState(() {
+      imagePaths.shuffle();
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +54,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
           // GridView with 24 cards
           Expanded(
             flex: 5,
-            child: Padding(padding: const EdgeInsets.symmetric(horizontal:8.0),
+            child: Padding(padding: const EdgeInsets.symmetric(horizontal:4.0),
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 6,
@@ -52,7 +64,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
                 itemBuilder: (context, index) {
                   final controller = FlipCardController();
                   return Padding(
-                    padding: const EdgeInsets.all(4.0), // 여백 추가
+                    padding: const EdgeInsets.all(1.0), // 여백 추가
                     child: GestureDetector(
                       onTap: () {
                         controller.flipcard();
@@ -68,7 +80,12 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
                           ),
                         ),
                         backWidget: Card(
-                          child: Center(child: Text('Card ${index + 1}')),
+                          child: Center(
+                            child: Image.asset(
+                              imagePaths[index],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -79,26 +96,12 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
           ),
           // Spacer
           SizedBox(height: 5),
-          // Row with 5 empty cards
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(5, (index) {
-              return Card(
-                child: Container(
-                  width: 40,
-                  height: 60,
-                ),
-              );
-            }),
-          ),
-          // Spacer
-          SizedBox(height: 5),
           // Buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: shuffleImages,
                 child: Text('셔플'),
               ),
               ElevatedButton(
