@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_proj/controller/tarot_data_controller.dart';
 import 'package:flutter_proj/widget/monthly_widget.dart';
 import 'package:flutter_proj/widget/tarot_result_widget.dart';
 import 'package:flutter_proj/widget/loading_test_widget.dart';
@@ -11,7 +12,18 @@ final navigationIndexProvider = StateProvider<int>((ref) {
 });
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); // 바인딩 초기화
+
+  final TarotDataController tarotController = TarotDataController();
+
+  // Initialize controller
+  await tarotController.initialize();
+
+  // Example usage
+  print(tarotController.getWealthInterpretation("00")); // 재물운 해석
+  print(tarotController.getMajorArcanaName("01")); // 카드 이름
+  print(tarotController.getMinorArcanaName("Wands", 3));
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) {
     runApp(ProviderScope(child: MainApp()));
