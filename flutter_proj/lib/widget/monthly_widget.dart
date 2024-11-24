@@ -14,6 +14,8 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
     24,
     (index) => 'assets/images/major_arcana_${index.toString().padLeft(2, '0')}.jpeg',
   );
+
+  List<FlipCardController> controllers = List.generate(24, (_) => FlipCardController());
   
   @override
   void initState() {
@@ -21,7 +23,12 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
     imagePaths.shuffle(); // 초기화 시 리스트를 섞습니다.
   }
   
-  void shuffleImages() {
+  void shuffleImages() async{
+    for (var controller in controllers) {
+      if (controller.state?.isFront == false) {
+        await controller.flipcard();
+      }
+    }
     setState(() {
       imagePaths.shuffle();
     });
@@ -62,7 +69,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
                 ),
                 itemCount: 24,
                 itemBuilder: (context, index) {
-                  final controller = FlipCardController();
+                  final controller = controllers[index];
                   return Padding(
                     padding: const EdgeInsets.all(1.0), // 여백 추가
                     child: GestureDetector(
@@ -75,7 +82,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
                         frontWidget: Card(
                           color: Colors.blue,
                           child: Center(child: Image.asset(
-                            'assets/images/back_of_card.jpeg',
+                            'assets/images/back_of_card_1.jpeg',
                             fit: BoxFit.fill)
                           ),
                         ),
