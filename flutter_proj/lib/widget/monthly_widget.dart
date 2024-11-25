@@ -11,9 +11,9 @@ class MonthlyWidget extends ConsumerStatefulWidget {
 }
 
 class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
-  List<String> imagePaths = List.generate(
+  List<String> cardIndex = List.generate(
     24,
-    (index) => 'assets/images/major_arcana_${index.toString().padLeft(2, '0')}.jpeg',
+    (index) => index.toString().padLeft(2, '0'),
   );
 
   List<FlipCardController> controllers = List.generate(24, (_) => FlipCardController());
@@ -21,7 +21,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
   @override
   void initState() {
     super.initState();
-    imagePaths.shuffle(); // 초기화 시 리스트를 섞습니다.
+    cardIndex.shuffle(); // 초기화 시 리스트를 섞습니다.
   }
 
   void shuffleImages() async{
@@ -31,7 +31,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
       }
     }
     setState(() {
-      imagePaths.shuffle();
+      cardIndex.shuffle();
     });
   }
 
@@ -42,7 +42,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
         title: const Text('MisticCocoa'),
       ),
       body: TarotSelectWidget(
-        imagePaths: imagePaths,
+        cardIndex: cardIndex,
         controllers: controllers,
         onShuffle: shuffleImages,
       ),

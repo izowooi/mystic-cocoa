@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter_proj/widget/tarot_result_widget.dart';
+import 'package:flutter_proj/controller/tarot_data_controller.dart';
 
 class TarotSelectWidget extends StatefulWidget {
-  final List<String> imagePaths;
+  final List<String> cardIndex;
   final List<FlipCardController> controllers;
   final VoidCallback onShuffle;
 
   TarotSelectWidget({
-    required this.imagePaths,
+    required this.cardIndex,
     required this.controllers,
     required this.onShuffle,
   });
@@ -18,6 +19,32 @@ class TarotSelectWidget extends StatefulWidget {
 }
 
 class _TarotSelectWidgetState extends State<TarotSelectWidget> {
+  List<TarotCardData> selectedCards = [];
+
+  void _selectCard(int index) {
+    final cardIndex = widget.cardIndex[index];
+    final cardPath = 'assets/images/major_arcana_$cardIndex.jpeg';
+    final cardTitle = TarotDataController().getMajorArcanaName(cardIndex);
+    final cardContent = TarotDataController().getWealthInterpretation(cardIndex);
+
+    // var tarotList = [
+    //     TarotCardData(
+    //       imagePath: 'assets/images/01.jpeg',
+    //       title: 'The Fool',
+    //       content: 'This card represents new beginnings and potential.',
+    //     ),
+    // ];
+
+    setState(() {
+      selectedCards.add(
+        TarotCardData(
+        imagePath: cardPath,
+        title: cardTitle,
+        content: cardContent,)
+      );
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,6 +82,7 @@ class _TarotSelectWidgetState extends State<TarotSelectWidget> {
                     child: GestureDetector(
                       onTap: () {
                         controller.flipcard();
+                        _selectCard(index);
                       },
                       child: FlipCard(
                         controller: controller,
@@ -69,7 +97,7 @@ class _TarotSelectWidgetState extends State<TarotSelectWidget> {
                         backWidget: Card(
                           child: Center(
                             child: Image.asset(
-                              widget.imagePaths[index],
+                              'assets/images/major_arcana_${widget.cardIndex[index]}.jpeg',
                               fit: BoxFit.cover,
                             ),
                           ),
