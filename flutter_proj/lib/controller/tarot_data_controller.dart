@@ -2,6 +2,17 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class TarotDataController {
+  // Private constructor
+  TarotDataController._privateConstructor();
+
+  // The single instance of the class
+  static final TarotDataController _instance = TarotDataController._privateConstructor();
+
+  // Factory constructor to return the same instance
+  factory TarotDataController() {
+    return _instance;
+  }
+  
   // Map to hold Major Arcana interpretations
   late Map<String, String> majorArcanaWealth;
   late Map<String, String> majorArcanaHealth;

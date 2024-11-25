@@ -27,14 +27,6 @@ class _TarotSelectWidgetState extends State<TarotSelectWidget> {
     final cardTitle = TarotDataController().getMajorArcanaName(cardIndex);
     final cardContent = TarotDataController().getWealthInterpretation(cardIndex);
 
-    // var tarotList = [
-    //     TarotCardData(
-    //       imagePath: 'assets/images/01.jpeg',
-    //       title: 'The Fool',
-    //       content: 'This card represents new beginnings and potential.',
-    //     ),
-    // ];
-
     setState(() {
       selectedCards.add(
         TarotCardData(
@@ -121,23 +113,19 @@ class _TarotSelectWidgetState extends State<TarotSelectWidget> {
               ),
               ElevatedButton(
               onPressed: () async {
-                var tarotList = [
-                    TarotCardData(
-                      imagePath: 'assets/images/01.jpeg',
-                      title: 'The Fool',
-                      content: 'This card represents new beginnings and potential.',
-                    ),
-                ];
                 await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => TarotResultWidget(
                     title: '올해의 운세',
-                    cardDataList: tarotList,)
+                    cardDataList: selectedCards,)
                     ),
                 );
                 widget.onShuffle(); // 돌아왔을 때 셔플 실행
+                setState(() {
+                  selectedCards.clear(); // selectedCards 초기화
+                });
               },
-              child: Text('확인하기'),
+              child: const Text('확인하기'),
             ),
             ],
           ),
