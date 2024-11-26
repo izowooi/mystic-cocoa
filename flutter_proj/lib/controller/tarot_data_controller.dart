@@ -65,7 +65,7 @@ class TarotDataController {
       case 3:
         return getCareerInterpretation(cardIndex);
       default:
-        return "Unknown description.";
+        return "Unknown descriptionin. index: $index";
     }
   }
 
