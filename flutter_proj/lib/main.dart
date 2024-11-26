@@ -82,11 +82,12 @@ class MainApp extends ConsumerWidget {
           children: [
             YearlyWidget(),
             MonthlyWidget(),
+            TodayWidget(),
             TarotResultWidget(
               title: 'Tarot Result',
               cardDataList: tarotList,
             ),
-            const LoadingTestWidget(),
+            //const LoadingTestWidget(),
             
           ],
         ),
