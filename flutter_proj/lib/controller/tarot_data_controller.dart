@@ -86,11 +86,11 @@ class TarotDataController {
     return majorArcanaCareer[cardIndex] ?? "Unknown description.";
   }
 
-  String getTodayInterpretation(String cardIndex, {int index = 0}) {
+  String getTodayInterpretation(String cardIndex, int index) {
     return majorArcanaToday[cardIndex] ?? "Unknown description.";
   }
 
-  String getMonthlyInterpretation(String cardIndex, {int index = 0}) {
+  String getMonthlyInterpretation(String cardIndex, int index) {
     return majorArcanaMonth[cardIndex] ?? "Unknown description.";
   }
 

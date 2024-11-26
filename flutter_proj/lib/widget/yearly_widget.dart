@@ -44,9 +44,10 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('MysticCocoa'),
+          title: const Text('올해의 타로 운세'),
         ),
         body: TarotSelectWidget(
+          pickMessage: '신중하게 카드 5개를 골라주세요',
           cardIndex: cardIndex,
           controllers: controllers,
           onShuffle: shuffleImages,

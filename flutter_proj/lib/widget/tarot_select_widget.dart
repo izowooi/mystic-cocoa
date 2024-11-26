@@ -10,11 +10,13 @@ final interpretationProvider = Provider<Function(String, int)>((ref) {
 });
 
 class TarotSelectWidget extends ConsumerStatefulWidget {
+  final String pickMessage;
   final List<String> cardIndex;
   final List<FlipCardController> controllers;
   final VoidCallback onShuffle;
 
   TarotSelectWidget({
+    required this.pickMessage,
     required this.cardIndex,
     required this.controllers,
     required this.onShuffle,
@@ -59,8 +61,8 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: Text(
-              "신중하게 카드 5개를 골라주세요",
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              widget.pickMessage,
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
           // GridView with 24 cards

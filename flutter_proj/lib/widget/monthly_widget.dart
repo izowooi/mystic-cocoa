@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
+import 'package:flutter_proj/controller/tarot_data_controller.dart';
 import 'tarot_select_widget.dart';
 
 class MonthlyWidget extends ConsumerStatefulWidget {
@@ -37,14 +38,20 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MisticCocoa'),
-      ),
-      body: TarotSelectWidget(
-        cardIndex: cardIndex,
-        controllers: controllers,
-        onShuffle: shuffleImages,
+    return ProviderScope(
+      overrides: [
+        interpretationProvider.overrideWithValue((String cardIndex, int index) => TarotDataController().getMonthlyInterpretation(cardIndex, index)),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('이달의 타로 운세'),
+        ),
+        body: TarotSelectWidget(
+          pickMessage: '신중하게 카드 1개를 골라주세요',
+          cardIndex: cardIndex,
+          controllers: controllers,
+          onShuffle: shuffleImages,
+        ),
       ),
     );
   }

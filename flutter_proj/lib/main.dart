@@ -81,12 +81,13 @@ class MainApp extends ConsumerWidget {
           index: currentPageIndex,
           children: [
             YearlyWidget(),
-            const LoadingTestWidget(),
+            MonthlyWidget(),
             TarotResultWidget(
               title: 'Tarot Result',
               cardDataList: tarotList,
             ),
-            MonthlyWidget(),
+            const LoadingTestWidget(),
+            
           ],
         ),
       )
