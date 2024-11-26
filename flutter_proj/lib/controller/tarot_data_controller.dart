@@ -18,6 +18,8 @@ class TarotDataController {
   late Map<String, String> majorArcanaHealth;
   late Map<String, String> majorArcanaLove;
   late Map<String, String> majorArcanaCareer;
+  late Map<String, String> majorArcanaToday;
+  late Map<String, String> majorArcanaMonth;
 
   // Map to hold Major Arcana names
   late Map<String, String> majorArcanaNames;
@@ -32,6 +34,8 @@ class TarotDataController {
     final healthData = await _loadJsonFile('assets/tarot_data/major_arcana_health.json');
     final loveData = await _loadJsonFile('assets/tarot_data/major_arcana_love.json');
     final careerData = await _loadJsonFile('assets/tarot_data/major_arcana_career.json');
+    final todayData = await _loadJsonFile('assets/tarot_data/major_arcana_today.json');
+    final monthData = await _loadJsonFile('assets/tarot_data/major_arcana_month.json');
     final namesData = await _loadJsonFile('assets/tarot_data/major_arcana_names.json');
 
     // Populate maps
@@ -39,6 +43,8 @@ class TarotDataController {
     majorArcanaHealth = Map<String, String>.from(healthData);
     majorArcanaLove = Map<String, String>.from(loveData);
     majorArcanaCareer = Map<String, String>.from(careerData);
+    majorArcanaToday = Map<String, String>.from(todayData);
+    majorArcanaMonth = Map<String, String>.from(monthData);
     majorArcanaNames = Map<String, String>.from(namesData);
   }
 
@@ -48,11 +54,22 @@ class TarotDataController {
     return jsonDecode(jsonString);
   }
 
-  String getYearlyInterpretation(String cardIndex) {
-    return "not implemented yet";
+  String getYearlyInterpretation(String cardIndex, int index) {
+    switch (index) {
+      case 0:
+        return getWealthInterpretation(cardIndex);
+      case 1:
+        return getHealthInterpretation(cardIndex);
+      case 2:
+        return getLoveInterpretation(cardIndex);
+      case 3:
+        return getCareerInterpretation(cardIndex);
+      default:
+        return "Unknown description.";
+    }
   }
-  
-  // Get Major Arcana interpretation (4 functions)
+
+  // Get Major Arcana interpretation
   String getWealthInterpretation(String cardIndex) {
     return majorArcanaWealth[cardIndex] ?? "Unknown description.";
   }
@@ -67,6 +84,14 @@ class TarotDataController {
 
   String getCareerInterpretation(String cardIndex) {
     return majorArcanaCareer[cardIndex] ?? "Unknown description.";
+  }
+
+  String getTodayInterpretation(String cardIndex, {int index = 0}) {
+    return majorArcanaToday[cardIndex] ?? "Unknown description.";
+  }
+
+  String getMonthlyInterpretation(String cardIndex, {int index = 0}) {
+    return majorArcanaMonth[cardIndex] ?? "Unknown description.";
   }
 
   // Get Major Arcana card name

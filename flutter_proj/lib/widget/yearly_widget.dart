@@ -40,7 +40,7 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
   Widget build(BuildContext context) {
     return ProviderScope(
       overrides: [
-        interpretationProvider.overrideWithValue((String index) => TarotDataController().getYearlyInterpretation(index)),
+        interpretationProvider.overrideWithValue((String cardIndex, int index) => TarotDataController().getYearlyInterpretation(cardIndex, index)),
       ],
       child: Scaffold(
         appBar: AppBar(

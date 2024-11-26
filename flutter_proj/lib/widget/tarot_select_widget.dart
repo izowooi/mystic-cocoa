@@ -5,8 +5,8 @@ import 'package:flutter_proj/controller/tarot_data_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Define a provider for the interpretation function
-final interpretationProvider = Provider<Function(String)>((ref) {
-  return (String index) => TarotDataController().getWealthInterpretation(index);
+final interpretationProvider = Provider<Function(String, int)>((ref) {
+  return (String cardIndex,int index) => TarotDataController().getYearlyInterpretation(cardIndex, index);
 });
 
 class TarotSelectWidget extends ConsumerStatefulWidget {
@@ -31,7 +31,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
     final cardIndex = widget.cardIndex[index];
     final cardPath = 'assets/images/major_arcana_$cardIndex.jpeg';
     final cardTitle = TarotDataController().getMajorArcanaName(cardIndex);
-    final cardContent = ref.read(interpretationProvider)(cardIndex);
+    final cardContent = ref.read(interpretationProvider)(cardIndex, index);
 
     setState(() {
       selectedCards.add(

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_proj/controller/tarot_data_controller.dart';
+import 'package:flutter_proj/widget/today_widget.dart';
 import 'package:flutter_proj/widget/monthly_widget.dart';
+import 'package:flutter_proj/widget/yearly_widget.dart';
 import 'package:flutter_proj/widget/tarot_result_widget.dart';
 import 'package:flutter_proj/widget/loading_test_widget.dart';
 
@@ -78,7 +80,7 @@ class MainApp extends ConsumerWidget {
         body: IndexedStack(
           index: currentPageIndex,
           children: [
-            MonthlyWidget(),
+            YearlyWidget(),
             const LoadingTestWidget(),
             TarotResultWidget(
               title: 'Tarot Result',
