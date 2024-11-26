@@ -65,7 +65,7 @@ class TarotCardDescription extends StatelessWidget {
           children: [
             // 카드 이미지
             Padding(
-              padding: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
               child: Image.asset(data.imagePath,
               fit: BoxFit.cover,),
             ),
