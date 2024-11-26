@@ -48,6 +48,10 @@ class TarotDataController {
     return jsonDecode(jsonString);
   }
 
+  String getYearlyInterpretation(String cardIndex) {
+    return "not implemented yet";
+  }
+  
   // Get Major Arcana interpretation (4 functions)
   String getWealthInterpretation(String cardIndex) {
     return majorArcanaWealth[cardIndex] ?? "Unknown description.";

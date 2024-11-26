@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter_proj/widget/tarot_result_widget.dart';
 import 'package:flutter_proj/controller/tarot_data_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TarotSelectWidget extends StatefulWidget {
+// Define a provider for the interpretation function
+final interpretationProvider = Provider<Function(String)>((ref) {
+  return (String index) => TarotDataController().getWealthInterpretation(index);
+});
+
+class TarotSelectWidget extends ConsumerStatefulWidget {
   final List<String> cardIndex;
   final List<FlipCardController> controllers;
   final VoidCallback onShuffle;
@@ -18,14 +24,14 @@ class TarotSelectWidget extends StatefulWidget {
   _TarotSelectWidgetState createState() => _TarotSelectWidgetState();  
 }
 
-class _TarotSelectWidgetState extends State<TarotSelectWidget> {
+class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
   List<TarotCardData> selectedCards = [];
 
   void _selectCard(int index) {
     final cardIndex = widget.cardIndex[index];
     final cardPath = 'assets/images/major_arcana_$cardIndex.jpeg';
     final cardTitle = TarotDataController().getMajorArcanaName(cardIndex);
-    final cardContent = TarotDataController().getWealthInterpretation(cardIndex);
+    final cardContent = ref.read(interpretationProvider)(cardIndex);
 
     setState(() {
       selectedCards.add(
