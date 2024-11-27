@@ -45,13 +45,14 @@ class _TodayWidgetWidgetState extends ConsumerState<TodayWidget> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('오늘의 타로 운세'),
+          backgroundColor: Colors.yellow.shade100,
         ),
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.yellow.shade100, Colors.yellow.shade300],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
           ),
           child: TarotSelectWidget(

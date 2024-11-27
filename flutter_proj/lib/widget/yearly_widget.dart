@@ -45,13 +45,23 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('올해의 타로 운세'),
+          backgroundColor: Colors.lightGreen.shade100,
         ),
-        body: TarotSelectWidget(
-          pickMessage: '신중하게 카드 5개를 골라주세요',
-          cardIndex: cardIndex,
-          controllers: controllers,
-          onShuffle: shuffleImages,
-          maxSelectableCards: 5,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.lightGreen.shade100, Colors.lightGreen.shade300],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: TarotSelectWidget(
+            pickMessage: '신중하게 카드 5개를 골라주세요',
+            cardIndex: cardIndex,
+            controllers: controllers,
+            onShuffle: shuffleImages,
+            maxSelectableCards: 5,
+          ),
         ),
       ),
     );

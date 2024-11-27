@@ -31,9 +31,11 @@ class TarotSelectWidget extends ConsumerStatefulWidget {
 class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
   List<TarotCardData> selectedCards = [];
 
-  void _selectCard(int index) {
-  if (selectedCards.length >= widget.maxSelectableCards) {
-    // 최대 선택 개수를 초과하면 AlertDialog를 보여줍니다.
+  bool _isMaxSelectable() {
+    return selectedCards.length >= widget.maxSelectableCards;
+  }
+  // 최대 선택 개수를 초과하면 AlertDialog를 보여줍니다.
+  void showMaxSelectionDialog(){
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -51,9 +53,9 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
         );
       },
     );
-    return;
   }
-
+  
+  void _selectCard(int index) {
     final cardIndex = widget.cardIndex[index];
     final cardPath = 'assets/images/major_arcana_$cardIndex.jpeg';
     final cardTitle = TarotDataController().getMajorArcanaName(cardIndex);
@@ -105,6 +107,10 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                     padding: const EdgeInsets.all(1.0), // 여백 추가
                     child: GestureDetector(
                       onTap: () {
+                        if (_isMaxSelectable()) {
+                          showMaxSelectionDialog();
+                          return;
+                        }
                         controller.flipcard();
                         _selectCard(index);
                       },

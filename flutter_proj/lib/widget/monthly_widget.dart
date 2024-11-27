@@ -45,13 +45,23 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('이달의 타로 운세'),
+          backgroundColor: Colors.lightBlue.shade100,
         ),
-        body: TarotSelectWidget(
-          pickMessage: '신중하게 카드 1개를 골라주세요',
-          cardIndex: cardIndex,
-          controllers: controllers,
-          onShuffle: shuffleImages,
-          maxSelectableCards: 1,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.lightBlue.shade100, Colors.lightBlue.shade300],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: TarotSelectWidget(
+            pickMessage: '신중하게 카드 1개를 골라주세요',
+            cardIndex: cardIndex,
+            controllers: controllers,
+            onShuffle: shuffleImages,
+            maxSelectableCards: 1,
+          ),
         ),
       ),
     );
