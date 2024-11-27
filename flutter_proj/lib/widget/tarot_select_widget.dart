@@ -14,12 +14,14 @@ class TarotSelectWidget extends ConsumerStatefulWidget {
   final List<String> cardIndex;
   final List<FlipCardController> controllers;
   final VoidCallback onShuffle;
+  final int maxSelectableCards;
 
   TarotSelectWidget({
     required this.pickMessage,
     required this.cardIndex,
     required this.controllers,
     required this.onShuffle,
+    required this.maxSelectableCards,
   });
 
   @override
@@ -30,6 +32,28 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
   List<TarotCardData> selectedCards = [];
 
   void _selectCard(int index) {
+  if (selectedCards.length >= widget.maxSelectableCards) {
+    // 최대 선택 개수를 초과하면 AlertDialog를 보여줍니다.
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('😊주의'),
+          content: Text('최대 ${widget.maxSelectableCards}개의 카드만 선택할 수 있습니다.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('✅확인'),
+            ),
+          ],
+        );
+      },
+    );
+    return;
+  }
+
     final cardIndex = widget.cardIndex[index];
     final cardPath = 'assets/images/major_arcana_$cardIndex.jpeg';
     final cardTitle = TarotDataController().getMajorArcanaName(cardIndex);

@@ -46,11 +46,21 @@ class _TodayWidgetWidgetState extends ConsumerState<TodayWidget> {
         appBar: AppBar(
           title: const Text('오늘의 타로 운세'),
         ),
-        body: TarotSelectWidget(
-          pickMessage: '신중하게 카드 1개를 골라주세요',
-          cardIndex: cardIndex,
-          controllers: controllers,
-          onShuffle: shuffleImages,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.yellow.shade100, Colors.yellow.shade300],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: TarotSelectWidget(
+            pickMessage: '신중하게 카드 1개를 골라주세요',
+            cardIndex: cardIndex,
+            controllers: controllers,
+            onShuffle: shuffleImages,
+            maxSelectableCards: 1,
+          ),
         ),
       ),
     );

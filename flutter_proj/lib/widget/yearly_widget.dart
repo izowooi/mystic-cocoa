@@ -51,6 +51,7 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
           cardIndex: cardIndex,
           controllers: controllers,
           onShuffle: shuffleImages,
+          maxSelectableCards: 5,
         ),
       ),
     );

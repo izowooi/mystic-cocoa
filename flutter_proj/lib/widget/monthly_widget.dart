@@ -51,6 +51,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
           cardIndex: cardIndex,
           controllers: controllers,
           onShuffle: shuffleImages,
+          maxSelectableCards: 1,
         ),
       ),
     );
