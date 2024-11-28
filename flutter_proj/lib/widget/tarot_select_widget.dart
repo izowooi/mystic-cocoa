@@ -100,7 +100,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                   crossAxisCount: 6,
                   childAspectRatio: 3 / 4,
                 ),
-                itemCount: 24,
+                itemCount: 22,
                 itemBuilder: (context, index) {
                   final controller = widget.controllers[index];
                   return Padding(

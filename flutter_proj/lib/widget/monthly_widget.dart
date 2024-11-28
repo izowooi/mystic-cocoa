@@ -13,7 +13,7 @@ class MonthlyWidget extends ConsumerStatefulWidget {
 
 class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
   List<String> cardIndex = List.generate(
-    24,
+    22,
     (index) => index.toString().padLeft(2, '0'),
   );
 

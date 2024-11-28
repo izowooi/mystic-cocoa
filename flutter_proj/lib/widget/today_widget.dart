@@ -13,7 +13,7 @@ class TodayWidget extends ConsumerStatefulWidget {
 
 class _TodayWidgetWidgetState extends ConsumerState<TodayWidget> {
   List<String> cardIndex = List.generate(
-    24,
+    22,
     (index) => index.toString().padLeft(2, '0'),
   );
 
