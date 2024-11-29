@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
-import 'package:flutter_proj/controller/tarot_data_controller.dart';
+import 'package:lucky_tarot/controller/tarot_data_controller.dart';
 import 'tarot_select_widget.dart';
 
 class YearlyWidget extends ConsumerStatefulWidget {

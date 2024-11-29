@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_proj/widget/loading_widget.dart';
+import 'package:lucky_tarot/widget/loading_widget.dart';
 
 class LoadingTestWidget extends StatelessWidget {
   const LoadingTestWidget({Key? key}) : super(key: key);

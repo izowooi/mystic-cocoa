@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_proj/controller/tarot_data_controller.dart';
-import 'package:flutter_proj/widget/today_widget.dart';
-import 'package:flutter_proj/widget/monthly_widget.dart';
-import 'package:flutter_proj/widget/yearly_widget.dart';
-import 'package:flutter_proj/widget/tarot_result_widget.dart';
-import 'package:flutter_proj/widget/loading_test_widget.dart';
+import 'package:lucky_tarot/controller/tarot_data_controller.dart';
+import 'package:lucky_tarot/widget/today_widget.dart';
+import 'package:lucky_tarot/widget/monthly_widget.dart';
+import 'package:lucky_tarot/widget/yearly_widget.dart';
+import 'package:lucky_tarot/widget/tarot_result_widget.dart';
+import 'package:lucky_tarot/widget/loading_test_widget.dart';
 
 final navigationIndexProvider = StateProvider<int>((ref) {
   return 0;
