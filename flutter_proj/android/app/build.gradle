@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.flutter_proj"
+    namespace = "com.izowooi.mystic_cocoa"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
