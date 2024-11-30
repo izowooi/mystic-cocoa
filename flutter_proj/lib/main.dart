@@ -38,6 +38,20 @@ class MainApp extends ConsumerWidget {
 
   MainApp({super.key});
 
+  // 탭별 색상 설정
+  Color getSelectedItemColor(int index) {
+    switch (index) {
+      case 0:
+        return Colors.lightGreen.shade300;
+      case 1:
+        return Colors.lightBlue.shade300;
+      case 2:
+        return Colors.yellow.shade300;
+      default:
+        return Colors.black12;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPageIndex = ref.watch(navigationIndexProvider);
@@ -68,16 +82,18 @@ class MainApp extends ConsumerWidget {
       home: Scaffold(
         bottomNavigationBar: NavigationBar(
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.snowing), label: '올해의 운세'),
-          NavigationDestination(icon: Icon(Icons.snowshoeing), label: '12월'),
-          NavigationDestination(icon: Icon(Icons.calendar_today), label: '오늘의 운세'),
+          NavigationDestination(icon: Icon(Icons.timeline), label: '올해의 운세'),
+          NavigationDestination(icon: Icon(Icons.calendar_month), label: '이달의 운세'),
+          NavigationDestination(icon: Icon(Icons.wb_sunny), label: '오늘의 운세'),
           NavigationDestination(icon: Icon(Icons.settings), label: '설정'),
         ],
         selectedIndex: currentPageIndex,
+        indicatorColor: getSelectedItemColor(currentPageIndex),
         onDestinationSelected: (index) {
-          ref.read(navigationIndexProvider.notifier).state = index;
-        },
+            ref.read(navigationIndexProvider.notifier).state = index;
+          },
         ),
+        
         drawer: LeftDrawerWidget(),
         body: IndexedStack(
           index: currentPageIndex,
