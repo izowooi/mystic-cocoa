@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
+import 'package:mystic_cocoa/widget/left_drawer_widget.dart';
 import 'package:mystic_cocoa/widget/today_widget.dart';
 import 'package:mystic_cocoa/widget/monthly_widget.dart';
 import 'package:mystic_cocoa/widget/yearly_widget.dart';
@@ -77,6 +78,7 @@ class MainApp extends ConsumerWidget {
           ref.read(navigationIndexProvider.notifier).state = index;
         },
         ),
+        drawer: LeftDrawerWidget(),
         body: IndexedStack(
           index: currentPageIndex,
           children: [
