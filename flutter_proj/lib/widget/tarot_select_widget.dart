@@ -3,6 +3,7 @@ import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:mystic_cocoa/widget/tarot_result_widget.dart';
 import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mystic_cocoa/widget/left_drawer_widget.dart';
 
 // Define a provider for the interpretation function
 final interpretationProvider = Provider<Function(String, int)>((ref) {
@@ -32,6 +33,9 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
   List<TarotCardData> selectedCards = [];
 
   bool _isMaxSelectable() {
+    if(ref.read(debugModeProvider).enableAllowAllCards) {
+      return false;
+    }
     return selectedCards.length >= widget.maxSelectableCards;
   }
   // 최대 선택 개수를 초과하면 AlertDialog를 보여줍니다.
