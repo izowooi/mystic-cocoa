@@ -82,9 +82,9 @@ class MainApp extends ConsumerWidget {
       home: Scaffold(
         bottomNavigationBar: NavigationBar(
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.timeline), label: '올해의 운세'),
-          NavigationDestination(icon: Icon(Icons.calendar_month), label: '이달의 운세'),
           NavigationDestination(icon: Icon(Icons.wb_sunny), label: '오늘의 운세'),
+          NavigationDestination(icon: Icon(Icons.calendar_month), label: '이달의 운세'),
+          NavigationDestination(icon: Icon(Icons.timeline), label: '올해의 운세'),
           NavigationDestination(icon: Icon(Icons.settings), label: '설정'),
         ],
         selectedIndex: currentPageIndex,
@@ -98,9 +98,9 @@ class MainApp extends ConsumerWidget {
         body: IndexedStack(
           index: currentPageIndex,
           children: [
-            YearlyWidget(),
-            MonthlyWidget(),
             TodayWidget(),
+            MonthlyWidget(),
+            YearlyWidget(),
             TarotResultWidget(
               title: 'Tarot Result',
               cardDataList: tarotList,
