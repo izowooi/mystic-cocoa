@@ -121,6 +121,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                       child: FlipCard(
                         controller: controller,
                         rotateSide: RotateSide.right,
+                        animationDuration: const Duration(milliseconds: 300),
                         frontWidget: Card(
                           margin: EdgeInsets.zero,
                           child: Center(child: Image.asset(
