@@ -56,6 +56,7 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
             ),
           ),
           child: TarotSelectWidget(
+            titlePath: 'assets/images/adult_magician.jpeg',
             pickMessage: '신중하게 카드 5개를 골라주세요',
             cardIndex: cardIndex,
             controllers: controllers,

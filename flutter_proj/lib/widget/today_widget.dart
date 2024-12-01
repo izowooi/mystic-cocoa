@@ -56,6 +56,7 @@ class _TodayWidgetWidgetState extends ConsumerState<TodayWidget> {
             ),
           ),
           child: TarotSelectWidget(
+            titlePath: 'assets/images/child_magician.jpeg',
             pickMessage: '신중하게 카드 1개를 골라주세요',
             cardIndex: cardIndex,
             controllers: controllers,

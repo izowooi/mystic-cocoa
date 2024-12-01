@@ -11,6 +11,7 @@ final interpretationProvider = Provider<Function(String, int)>((ref) {
 });
 
 class TarotSelectWidget extends ConsumerStatefulWidget {
+  final String titlePath;
   final String pickMessage;
   final List<String> cardIndex;
   final List<FlipCardController> controllers;
@@ -18,6 +19,7 @@ class TarotSelectWidget extends ConsumerStatefulWidget {
   final int maxSelectableCards;
 
   TarotSelectWidget({
+    required this.titlePath,
     required this.pickMessage,
     required this.cardIndex,
     required this.controllers,
@@ -82,14 +84,14 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
         children: [
           // Card Image
           Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Image.asset('assets/images/01.jpeg',
-            width: 50,
+            padding: const EdgeInsets.all(1.0),
+            child: Image.asset(widget.titlePath,
+            width: 300,
             height: 90,),
           ),
           // Instruction Text
           Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(1.0),
             child: Text(
               widget.pickMessage,
               style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
