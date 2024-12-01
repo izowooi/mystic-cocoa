@@ -108,7 +108,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                 itemBuilder: (context, index) {
                   final controller = widget.controllers[index];
                   return Padding(
-                    padding: const EdgeInsets.all(1.0), // 여백 추가
+                    padding: const EdgeInsets.all(6.0), // 여백 추가
                     child: GestureDetector(
                       onTap: () {
                         if (_isMaxSelectable()) {
@@ -122,16 +122,19 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                         controller: controller,
                         rotateSide: RotateSide.right,
                         frontWidget: Card(
-                          color: Colors.blue,
+                          margin: EdgeInsets.zero,
                           child: Center(child: Image.asset(
                             'assets/images/back_of_card_1.jpeg',
-                            fit: BoxFit.fill)
+                            width: 100.0,
+                            fit: BoxFit.cover)
                           ),
                         ),
                         backWidget: Card(
+                          margin: EdgeInsets.zero,
                           child: Center(
                             child: Image.asset(
                               'assets/images/major_arcana_${widget.cardIndex[index]}.jpeg',
+                              width: 100.0,
                               fit: BoxFit.cover,
                             ),
                           ),
