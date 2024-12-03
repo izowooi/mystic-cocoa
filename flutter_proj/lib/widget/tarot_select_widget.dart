@@ -84,89 +84,107 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
     });
   }
   
+  void _onFlipEnd() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TarotResultWidget(
+          title: '올해의 운세',
+          cardDataList: selectedCards,
+        ),
+      ),
+    );
+    widget.onShuffle(); // 돌아왔을 때 셔플 실행
+    _clearSelection(); // selectedCards 초기화
+  }
+
   @override
   Widget build(BuildContext context) {
     final debugModes = ref.watch(debugModeProvider);
 
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Card Image
-          // Padding(
-          //   padding: const EdgeInsets.all(1.0),
-          //   child: Image.asset(widget.titlePath,
-          //   width: 300,
-          //   height: 90,),
-          // ),
-          // Instruction Text
-          Padding(
-            padding: const EdgeInsets.all(1.0),
-            child: Text(
-              widget.pickMessage,
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            ),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // Card Image
+        // Padding(
+        //   padding: const EdgeInsets.all(1.0),
+        //   child: Image.asset(widget.titlePath,
+        //   width: 300,
+        //   height: 90,),
+        // ),
+        // Instruction Text
+        Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: Text(
+            widget.pickMessage,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
-          // GridView with 24 cards
-          Expanded(
-            flex: 5,
-            child: Padding(padding: const EdgeInsets.symmetric(horizontal:4.0),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
-                  childAspectRatio: 3 / 4,
-                ),
-                itemCount: 22,
-                itemBuilder: (context, index) {
-                  final controller = widget.controllers[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0), // 여백 추가
-                    child: GestureDetector(
-                      onTap: () {
-                        if (_isMaxSelectable()) {
-                          showMaxSelectionDialog();
-                          return;
-                        }
-                        controller.flipcard();
-                        _selectCard(index);
-                      },
-                      child: FlipCard(
-                        controller: controller,
-                        rotateSide: RotateSide.right,
-                        animationDuration: const Duration(milliseconds: 300),
-                        frontWidget: Card(
-                          margin: EdgeInsets.zero,
-                          child: Center(child: Image.asset(
-                            'assets/images/back_of_card_1.jpeg',
-                            //height: 80.0,
-                            width: 100.0,
-                            fit: BoxFit.cover)
-                          ),
+        ),
+        // GridView with 24 cards
+        Expanded(
+          flex: 5,
+          child: Padding(padding: const EdgeInsets.symmetric(horizontal:4.0),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5,
+                childAspectRatio: 3 / 4,
+              ),
+              itemCount: 22,
+              itemBuilder: (context, index) {
+                final controller = widget.controllers[index];
+                return Padding(
+                  padding: const EdgeInsets.all(4.0), // 여백 추가
+                  child: GestureDetector(
+                    onTap: () {
+                      if (_isMaxSelectable()) {
+                        showMaxSelectionDialog();
+                        return;
+                      }
+
+                      controller.flipcard();
+                      _selectCard(index);
+                      if (selectedCards.length == widget.maxSelectableCards) {
+                        Future.delayed(const Duration(milliseconds: 1500), () => _onFlipEnd());
+                      }
+                    },
+                    child: FlipCard(
+                      controller: controller,
+                      rotateSide: RotateSide.right,
+                      animationDuration: const Duration(milliseconds: 300),
+                      frontWidget: Card(
+                        margin: EdgeInsets.zero,
+                        child: Center(child: Image.asset(
+                          'assets/images/back_of_card_1.jpeg',
+                          //height: 80.0,
+                          width: 100.0,
+                          fit: BoxFit.cover)
                         ),
-                        backWidget: Card(
-                          margin: EdgeInsets.zero,
-                          child: Center(
-                            child: Image.asset(
-                              'assets/images/major_arcana_${widget.cardIndex[index]}.jpeg',
-                              width: 100.0,
-                              fit: BoxFit.cover,
-                            ),
+                      ),
+                      backWidget: Card(
+                        margin: EdgeInsets.zero,
+                        child: Center(
+                          child: Image.asset(
+                            'assets/images/major_arcana_${widget.cardIndex[index]}.jpeg',
+                            width: 100.0,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
-          // TarotActionButtons 위젯 사용
-          if (debugModes.apiLogging) // 디버그 모드가 켜져 있을 때만 노출
-            TarotActionButtons(
-              onShuffle: widget.onShuffle,
-              selectedCards: selectedCards,
-              onClearSelection: _clearSelection,
-            ),
-        ],
-      );
+        ),
+        // TarotActionButtons 위젯 사용
+        if (debugModes.apiLogging) // 디버그 모드가 켜져 있을 때만 노출
+          TarotActionButtons(
+            onShuffle: widget.onShuffle,
+            selectedCards: selectedCards,
+            onClearSelection: _clearSelection,
+          ),
+      ],
+    );
   }
 }
