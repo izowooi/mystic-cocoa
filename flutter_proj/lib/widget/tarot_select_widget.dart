@@ -83,12 +83,12 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Card Image
-          Padding(
-            padding: const EdgeInsets.all(1.0),
-            child: Image.asset(widget.titlePath,
-            width: 300,
-            height: 90,),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(1.0),
+          //   child: Image.asset(widget.titlePath,
+          //   width: 300,
+          //   height: 90,),
+          // ),
           // Instruction Text
           Padding(
             padding: const EdgeInsets.all(1.0),
@@ -103,14 +103,14 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
             child: Padding(padding: const EdgeInsets.symmetric(horizontal:4.0),
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 6,
+                  crossAxisCount: 5,
                   childAspectRatio: 3 / 4,
                 ),
                 itemCount: 22,
                 itemBuilder: (context, index) {
                   final controller = widget.controllers[index];
                   return Padding(
-                    padding: const EdgeInsets.all(6.0), // 여백 추가
+                    padding: const EdgeInsets.all(4.0), // 여백 추가
                     child: GestureDetector(
                       onTap: () {
                         if (_isMaxSelectable()) {
@@ -128,6 +128,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                           margin: EdgeInsets.zero,
                           child: Center(child: Image.asset(
                             'assets/images/back_of_card_1.jpeg',
+                            //height: 80.0,
                             width: 100.0,
                             fit: BoxFit.cover)
                           ),
@@ -150,35 +151,35 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
             ),
           ),
           // Spacer
-          SizedBox(height: 5),
-          // Buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: widget.onShuffle,
-                child: Text('셔플'),
-              ),
-              ElevatedButton(
-              onPressed: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TarotResultWidget(
-                    title: '올해의 운세',
-                    cardDataList: selectedCards,)
-                    ),
-                );
-                widget.onShuffle(); // 돌아왔을 때 셔플 실행
-                setState(() {
-                  selectedCards.clear(); // selectedCards 초기화
-                });
-              },
-              child: const Text('확인하기'),
-            ),
-            ],
-          ),
-          // Spacer
-          SizedBox(height: 5),
+          // SizedBox(height: 5),
+          // // Buttons
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     ElevatedButton(
+          //       onPressed: widget.onShuffle,
+          //       child: Text('셔플'),
+          //     ),
+          //     ElevatedButton(
+          //     onPressed: () async {
+          //       await Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => TarotResultWidget(
+          //           title: '올해의 운세',
+          //           cardDataList: selectedCards,)
+          //           ),
+          //       );
+          //       widget.onShuffle(); // 돌아왔을 때 셔플 실행
+          //       setState(() {
+          //         selectedCards.clear(); // selectedCards 초기화
+          //       });
+          //     },
+          //     child: const Text('확인하기'),
+          //   ),
+          //   ],
+          // ),
+          // // Spacer
+          // SizedBox(height: 5),
         ],
       );
   }
