@@ -4,6 +4,7 @@ import 'package:mystic_cocoa/widget/tarot_result_widget.dart';
 import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mystic_cocoa/widget/left_drawer_widget.dart';
+import 'package:mystic_cocoa/widget/tarot_action_buttons.dart';
 
 // Define a provider for the interpretation function
 final interpretationProvider = Provider<Function(String, int)>((ref) {
@@ -77,8 +78,16 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
     });
   }
   
+  void _clearSelection() {
+    setState(() {
+      selectedCards.clear();
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
+    final debugModes = ref.watch(debugModeProvider);
+
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -150,36 +159,13 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
               ),
             ),
           ),
-          // Spacer
-          // SizedBox(height: 5),
-          // // Buttons
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     ElevatedButton(
-          //       onPressed: widget.onShuffle,
-          //       child: Text('셔플'),
-          //     ),
-          //     ElevatedButton(
-          //     onPressed: () async {
-          //       await Navigator.push(
-          //         context,
-          //         MaterialPageRoute(builder: (context) => TarotResultWidget(
-          //           title: '올해의 운세',
-          //           cardDataList: selectedCards,)
-          //           ),
-          //       );
-          //       widget.onShuffle(); // 돌아왔을 때 셔플 실행
-          //       setState(() {
-          //         selectedCards.clear(); // selectedCards 초기화
-          //       });
-          //     },
-          //     child: const Text('확인하기'),
-          //   ),
-          //   ],
-          // ),
-          // // Spacer
-          // SizedBox(height: 5),
+          // TarotActionButtons 위젯 사용
+          if (debugModes.apiLogging) // 디버그 모드가 켜져 있을 때만 노출
+            TarotActionButtons(
+              onShuffle: widget.onShuffle,
+              selectedCards: selectedCards,
+              onClearSelection: _clearSelection,
+            ),
         ],
       );
   }
