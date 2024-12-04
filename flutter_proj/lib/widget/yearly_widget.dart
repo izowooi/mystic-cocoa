@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
+import 'package:mystic_cocoa/widget/loading_overlay.dart';
 import 'tarot_select_widget.dart';
 
 class YearlyWidget extends ConsumerStatefulWidget {
@@ -38,33 +39,41 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool showLoadingOverlay = ref.watch(isLoading);
+
     return ProviderScope(
       overrides: [
         interpretationProvider.overrideWithValue((String cardIndex, int index) => TarotDataController().getYearlyInterpretation(cardIndex, index)),
       ],
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('올해의 타로 운세'),
-          backgroundColor: Colors.lightGreen.shade100,
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.lightGreen.shade100, Colors.lightGreen.shade300],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: AppBar(
+              title: const Text('올해의 타로 운세'),
+              backgroundColor: Colors.lightGreen.shade100,
+            ),
+            body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.lightGreen.shade100, Colors.lightGreen.shade300],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: TarotSelectWidget(
+                titlePath: 'assets/images/adult_magician.jpeg',
+                pickMessage: '올해의 카드 4개를 골라주세요',
+                cardIndex: cardIndex,
+                controllers: controllers,
+                onShuffle: shuffleImages,
+                maxSelectableCards: 4,
+              ),
             ),
           ),
-          child: TarotSelectWidget(
-            titlePath: 'assets/images/adult_magician.jpeg',
-            pickMessage: '신중하게 카드 5개를 골라주세요',
-            cardIndex: cardIndex,
-            controllers: controllers,
-            onShuffle: shuffleImages,
-            maxSelectableCards: 5,
-          ),
-        ),
-      ),
+          if (showLoadingOverlay)
+            const LoadingOverlay(), // 로딩 화면 위젯
+        ],
+      )
     );
   }
 }

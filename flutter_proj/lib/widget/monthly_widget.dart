@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
+import 'package:mystic_cocoa/widget/loading_overlay.dart';
 import 'tarot_select_widget.dart';
 
 class MonthlyWidget extends ConsumerStatefulWidget {
@@ -38,33 +39,41 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool showLoadingOverlay = ref.watch(isLoading);
+
     return ProviderScope(
       overrides: [
         interpretationProvider.overrideWithValue((String cardIndex, int index) => TarotDataController().getMonthlyInterpretation(cardIndex, index)),
       ],
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('이달의 타로 운세'),
-          backgroundColor: Colors.lightBlue.shade100,
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.lightBlue.shade100, Colors.lightBlue.shade300],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: AppBar(
+              title: const Text('이달의 타로 운세'),
+              backgroundColor: Colors.lightBlue.shade100,
+            ),
+            body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.lightBlue.shade100, Colors.lightBlue.shade300],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: TarotSelectWidget(
+                titlePath: 'assets/images/teenage_magician.jpeg',
+                pickMessage: '신중하게 카드 1개를 골라주세요',
+                cardIndex: cardIndex,
+                controllers: controllers,
+                onShuffle: shuffleImages,
+                maxSelectableCards: 1,
+              ),
             ),
           ),
-          child: TarotSelectWidget(
-            titlePath: 'assets/images/teenage_magician.jpeg',
-            pickMessage: '신중하게 카드 1개를 골라주세요',
-            cardIndex: cardIndex,
-            controllers: controllers,
-            onShuffle: shuffleImages,
-            maxSelectableCards: 1,
-          ),
-        ),
-      ),
+          if (showLoadingOverlay)
+            const LoadingOverlay(), // 로딩 화면 위젯
+        ]
+      )
     );
   }
 }
