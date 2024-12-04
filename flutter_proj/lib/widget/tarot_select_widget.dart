@@ -164,7 +164,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                         child: Center(child: Image.asset(
                           'assets/images/back_of_card_1.jpeg',
                           //height: 80.0,
-                          width: 100.0,
+                          width: 200.0,
                           fit: BoxFit.cover)
                         ),
                       ),
@@ -173,7 +173,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                         child: Center(
                           child: Image.asset(
                             'assets/images/major_arcana_${widget.cardIndex[index]}.jpeg',
-                            width: 100.0,
+                            width: 200.0,
                             fit: BoxFit.cover,
                           ),
                         ),
