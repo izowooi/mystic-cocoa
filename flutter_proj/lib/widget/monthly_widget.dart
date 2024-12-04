@@ -61,6 +61,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
                 ),
               ),
               child: TarotSelectWidget(
+                appBarTitle: '이달의 타로 운세',
                 titlePath: 'assets/images/teenage_magician.jpeg',
                 pickMessage: '신중하게 카드 1개를 골라주세요',
                 cardIndex: cardIndex,

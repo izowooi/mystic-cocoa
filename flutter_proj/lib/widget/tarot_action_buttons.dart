@@ -34,6 +34,7 @@ class TarotActionButtons extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => TarotResultWidget(
                       title: '올해의 운세',
+                      titlePath: 'assets/images/child_magician.jpeg',
                       cardDataList: selectedCards,
                     ),
                   ),

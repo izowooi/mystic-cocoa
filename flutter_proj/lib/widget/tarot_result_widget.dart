@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class TarotResultWidget extends StatelessWidget {
   final String title; // 결과 화면의 제목
+  final String titlePath; // 결과 화면의 이미지 경로
   final List<TarotCardData> cardDataList; // 사용자가 고른 카드 데이터 리스트
 
   const TarotResultWidget({
     required this.title,
+    required this.titlePath,
     required this.cardDataList,
     Key? key,
   }) : super(key: key);
@@ -14,25 +16,17 @@ class TarotResultWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tarot Result"),
+        title: Text(title),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // 상단 제목
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.headlineMedium,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset('assets/images/love.jpeg',
+              //child: Image.asset('assets/images/child_magician.jpeg',
+              child: Image.asset(titlePath,
               fit: BoxFit.cover,
               ),
             ),

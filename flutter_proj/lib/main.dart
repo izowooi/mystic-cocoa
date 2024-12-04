@@ -7,8 +7,6 @@ import 'package:mystic_cocoa/widget/left_drawer_widget.dart';
 import 'package:mystic_cocoa/widget/today_widget.dart';
 import 'package:mystic_cocoa/widget/monthly_widget.dart';
 import 'package:mystic_cocoa/widget/yearly_widget.dart';
-import 'package:mystic_cocoa/widget/tarot_result_widget.dart';
-import 'package:mystic_cocoa/widget/loading_test_widget.dart';
 
 final navigationIndexProvider = StateProvider<int>((ref) {
   return 0;
@@ -56,28 +54,6 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPageIndex = ref.watch(navigationIndexProvider);
 
-    var tarotList = [
-        TarotCardData(
-          imagePath: 'assets/images/01.jpeg',
-          title: 'The Fool',
-          content: 'This card represents new beginnings and potential.',
-        ),
-        TarotCardData(
-          imagePath: 'assets/images/01.jpeg',
-          title: 'The Magician',
-          content: 'This card signifies power and resourcefulness.',
-        ),
-        TarotCardData(
-          imagePath: 'assets/images/01.jpeg',
-          title: 'The High Priestess',
-          content: 'This card stands for wisdom and intuition.',
-        ),
-        TarotCardData(
-          imagePath: 'assets/images/01.jpeg',
-          title: 'The Empress',
-          content: 'This card symbolizes abundance and nurturing.',
-        ),
-      ];
       return MaterialApp(
       home: Scaffold(
         bottomNavigationBar: NavigationBar(
@@ -101,12 +77,7 @@ class MainApp extends ConsumerWidget {
             TodayWidget(),
             MonthlyWidget(),
             YearlyWidget(),
-            TarotResultWidget(
-              title: 'Tarot Result',
-              cardDataList: tarotList,
-            ),
-            //const LoadingTestWidget(),
-            
+            YearlyWidget(),
           ],
         ),
       )

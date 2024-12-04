@@ -61,6 +61,7 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
                 ),
               ),
               child: TarotSelectWidget(
+                appBarTitle: '올해의 타로 운세',
                 titlePath: 'assets/images/adult_magician.jpeg',
                 pickMessage: '올해의 카드 4개를 골라주세요',
                 cardIndex: cardIndex,

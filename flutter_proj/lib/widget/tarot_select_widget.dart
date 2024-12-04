@@ -14,6 +14,7 @@ final interpretationProvider = Provider<Function(String, int)>((ref) {
 });
 
 class TarotSelectWidget extends ConsumerStatefulWidget {
+  final String appBarTitle;
   final String titlePath;
   final String pickMessage;
   final List<String> cardIndex;
@@ -22,6 +23,7 @@ class TarotSelectWidget extends ConsumerStatefulWidget {
   final int maxSelectableCards;
 
   TarotSelectWidget({
+    required this.appBarTitle,
     required this.titlePath,
     required this.pickMessage,
     required this.cardIndex,
@@ -91,7 +93,8 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => TarotResultWidget(
-          title: '올해의 운세',
+          title: widget.appBarTitle,
+          titlePath: widget.titlePath,
           cardDataList: selectedCards,
         ),
       ),
