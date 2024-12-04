@@ -5,6 +5,8 @@ import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mystic_cocoa/widget/left_drawer_widget.dart';
 import 'package:mystic_cocoa/widget/tarot_action_buttons.dart';
+import 'package:mystic_cocoa/widget/loading_overlay.dart';
+
 
 // Define a provider for the interpretation function
 final interpretationProvider = Provider<Function(String, int)>((ref) {
@@ -140,11 +142,14 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                         showMaxSelectionDialog();
                         return;
                       }
-
                       controller.flipcard();
                       _selectCard(index);
                       if (selectedCards.length == widget.maxSelectableCards) {
-                        Future.delayed(const Duration(milliseconds: 1500), () => _onFlipEnd());
+                        ref.read(isLoading.notifier).state = true;
+                        Future.delayed(const Duration(milliseconds: 1500), () => {
+                          ref.read(isLoading.notifier).state = false,
+                          _onFlipEnd()
+                        });
                       }
                     },
                     child: FlipCard(
