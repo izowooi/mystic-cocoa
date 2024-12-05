@@ -96,7 +96,7 @@ class _LeftDrawerWidgetState extends ConsumerState<LeftDrawerWidget> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Flexible(child: Text('Enable API Logging'),), 
+                const Flexible(child: Text('Show Debug Button'),), 
                 Consumer(builder: (context, ref, _) {
                   return Switch(
                     value: debugModes.apiLogging,

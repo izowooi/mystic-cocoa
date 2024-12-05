@@ -147,7 +147,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                       }
                       controller.flipcard();
                       _selectCard(index);
-                      if (selectedCards.length == widget.maxSelectableCards) {
+                      if (_isMaxSelectable()) {
                         ref.read(isLoading.notifier).state = true;
                         Future.delayed(const Duration(milliseconds: 1500), () => {
                           ref.read(isLoading.notifier).state = false,
