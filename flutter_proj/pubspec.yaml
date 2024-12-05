@@ -39,6 +39,7 @@ dependencies:
   flutter_flip_card: ^0.0.6
   gap: ^3.0.1
   shared_preferences: ^2.3.3
+  firebase_core: ^3.8.1
 
 dev_dependencies:
   flutter_test:
