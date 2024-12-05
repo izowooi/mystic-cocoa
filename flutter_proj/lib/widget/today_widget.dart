@@ -50,12 +50,12 @@ class _TodayWidgetWidgetState extends ConsumerState<TodayWidget> {
           Scaffold(
             appBar: AppBar(
               title: const Text('오늘의 타로 운세'),
-              backgroundColor: Colors.yellow.shade100,
+              backgroundColor: Colors.lightGreen.shade100,
             ),
             body: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.yellow.shade100, Colors.yellow.shade300],
+                  colors: [Colors.lightGreen.shade100, Colors.lightGreen.shade300],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),

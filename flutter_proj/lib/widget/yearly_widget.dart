@@ -50,12 +50,12 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
           Scaffold(
             appBar: AppBar(
               title: const Text('올해의 타로 운세'),
-              backgroundColor: Colors.lightGreen.shade100,
+              backgroundColor: Colors.yellow.shade100,
             ),
             body: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.lightGreen.shade100, Colors.lightGreen.shade300],
+                  colors: [Colors.yellow.shade100, Colors.yellow.shade300],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
