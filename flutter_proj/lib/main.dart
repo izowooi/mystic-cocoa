@@ -7,6 +7,8 @@ import 'package:mystic_cocoa/widget/left_drawer_widget.dart';
 import 'package:mystic_cocoa/widget/today_widget.dart';
 import 'package:mystic_cocoa/widget/monthly_widget.dart';
 import 'package:mystic_cocoa/widget/yearly_widget.dart';
+import 'package:mystic_cocoa/widget/settings_widget.dart';
+import 'dart:io';
 
 final navigationIndexProvider = StateProvider<int>((ref) {
   return 0;
@@ -14,16 +16,13 @@ final navigationIndexProvider = StateProvider<int>((ref) {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 바인딩 초기화
+  final String defaultLocale = Platform.localeName;
+  print('Default locale: $defaultLocale');
 
   final TarotDataController tarotController = TarotDataController();
 
   // Initialize controller
   await tarotController.initialize();
-
-  // Example usage
-  print(tarotController.getWealthInterpretation("00")); // 재물운 해석
-  print(tarotController.getMajorArcanaName("01")); // 카드 이름
-  print(tarotController.getMinorArcanaName("Wands", 3));
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) {
@@ -50,12 +49,17 @@ class MainApp extends ConsumerWidget {
     }
   }
 
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final currentPageIndex = ref.watch(navigationIndexProvider);
 
-      return MaterialApp(
-      home: Scaffold(
+    return MaterialApp(
+      home: Builder(builder: (context){
+        Locale locale = Localizations.localeOf(context);
+        print('Language code: ${locale.languageCode}');
+        return Scaffold(
         bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.wb_sunny), label: '오늘의 운세'),
@@ -77,10 +81,11 @@ class MainApp extends ConsumerWidget {
             TodayWidget(),
             MonthlyWidget(),
             YearlyWidget(),
-            YearlyWidget(),
+            SettingsWidget(),
           ],
         ),
-      )
+      );
+    })
     );
   }
 }
