@@ -38,6 +38,7 @@ class TarotSelectWidget extends ConsumerStatefulWidget {
 
 class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
   List<TarotCardData> selectedCards = [];
+  Set<int> selectedCardIndices = {}; // 선택된 카드 인덱스를 추적하는 상태 변수
 
   bool _isMaxSelectable() {
     if(ref.read(debugModeProvider).enableAllowAllCards) {
@@ -85,6 +86,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
   void _clearSelection() {
     setState(() {
       selectedCards.clear();
+      selectedCardIndices.clear();
     });
   }
   
@@ -145,6 +147,10 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                         showMaxSelectionDialog();
                         return;
                       }
+                      if (selectedCardIndices.contains(index)) {
+                        return; // 이미 선택된 카드는 무시
+                      }
+                      selectedCardIndices.add(index);
                       controller.flipcard();
                       _selectCard(index);
                       if (_isMaxSelectable()) {
