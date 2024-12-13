@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 class TarotResultWidget extends StatelessWidget {
   final String title; // 결과 화면의 제목
@@ -25,9 +26,9 @@ class TarotResultWidget extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              //child: Image.asset('assets/images/child_magician.jpeg',
-              child: Image.asset(titlePath,
-              fit: BoxFit.cover,
+              child: Image.asset(
+                titlePath,
+                fit: BoxFit.cover,
               ),
             ),
 
@@ -40,7 +41,7 @@ class TarotResultWidget extends StatelessWidget {
   }
 }
 
-class TarotCardDescription extends StatelessWidget {
+class TarotCardDescription extends StatefulWidget {
   final TarotCardData data;
 
   const TarotCardDescription({
@@ -49,34 +50,86 @@ class TarotCardDescription extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _TarotCardDescriptionState createState() => _TarotCardDescriptionState();
+}
+
+class _TarotCardDescriptionState extends State<TarotCardDescription>{
+  
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 동영상 경로를 사용하여 컨트롤러 초기화
+    _controller = VideoPlayerController.asset(widget.data.videoPath)
+      ..initialize().then((_) {
+        setState(() {
+        });
+        _controller.setVolume(0.0);
+        _controller.setLooping(true);
+        _controller.play();
+        // 초기에는 play()를 호출하지 않음 -> 탭할 때 play() 진행
+      }).catchError((error) {
+        debugPrint('Video initialization error: $error');
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose(); // 컨트롤러 해제
+    super.dispose();
+  }
+
+  void _togglePlayPause() {
+    if (_controller.value.isInitialized) {
+      if (_controller.value.isPlaying) {
+        _controller.pause();
+      } else {
+        _controller.play();
+      }
+
+      setState(() {}); // UI 갱신
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
+      key: ValueKey(widget.data.videoPath),
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 카드 이미지
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-              child: Image.asset(data.imagePath,
-              fit: BoxFit.cover,),
+            // 동영상 재생
+            GestureDetector(
+              onTap: _togglePlayPause,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+                child: AspectRatio(
+                  aspectRatio: _controller.value.isInitialized
+                      ? _controller.value.aspectRatio
+                      : 9 / 16, // 세로 비율 유지
+                  child: _controller.value.isInitialized
+                      ? VideoPlayer(_controller)
+                      : const Center(child: CircularProgressIndicator()), // 로딩 중
+                ),
+              ),
             ),
-
             const SizedBox(height: 8.0),
 
             // 카드 제목
             Text(
-              data.title,
+              widget.data.title,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-
             const SizedBox(height: 8.0),
 
             // 카드 내용
             Text(
-              data.content,
+              widget.data.content,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
@@ -88,11 +141,13 @@ class TarotCardDescription extends StatelessWidget {
 
 class TarotCardData {
   final String imagePath;
+  final String videoPath; // 동영상 경로 추가
   final String title;
   final String content;
 
   TarotCardData({
     required this.imagePath,
+    required this.videoPath,
     required this.title,
     required this.content,
   });

@@ -69,14 +69,16 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
   
   void _selectCard(int index) {
     final cardIndex = widget.cardIndex[index];
-    final cardPath = 'assets/images/major_arcana_$cardIndex.jpeg';
+    final imagePath = 'assets/images/major_arcana_$cardIndex.jpeg';
+    final videoPath = 'assets/videos/major_arcana_$cardIndex.mp4';
     final cardTitle = TarotDataController().getMajorArcanaName(cardIndex);
     final cardContent = ref.read(interpretationProvider)(cardIndex, selectedCards.length);
 
     setState(() {
       selectedCards.add(
         TarotCardData(
-        imagePath: cardPath,
+        imagePath: imagePath,
+        videoPath: videoPath,
         title: cardTitle,
         content: cardContent,)
       );
