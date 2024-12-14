@@ -16,7 +16,7 @@ final interpretationProvider = Provider<Function(String, int)>((ref) {
 class TarotSelectWidget extends ConsumerStatefulWidget {
   final String appBarTitle;
   final String titlePath;
-  final String pickMessage;
+  final List<String> pickMessage;
   final List<String> cardIndex;
   final List<FlipCardController> controllers;
   final VoidCallback onShuffle;
@@ -112,24 +112,18 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
     final debugModes = ref.watch(debugModeProvider);
     final settings = ref.watch(userSettingsProvider);
     final isAutoPlayMode = ref.watch(userSettingsProvider).autoPlay;
-    // 위젯에서 사용
-    Text('Current Card Index: ${settings.cardIndex}, Auto Play Mode: $isAutoPlayMode');
+    //Text('Current Card Index: ${settings.cardIndex}, Auto Play Mode: $isAutoPlayMode, selectedCards.length :${selectedCards.length}');
+    var pickMessage = (widget.pickMessage.length > selectedCards.length) 
+    ? widget.pickMessage[selectedCards.length] 
+    : widget.pickMessage.first;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Card Image
-        // Padding(
-        //   padding: const EdgeInsets.all(1.0),
-        //   child: Image.asset(widget.titlePath,
-        //   width: 300,
-        //   height: 90,),
-        // ),
-        // Instruction Text
         Padding(
           padding: const EdgeInsets.all(1.0),
           child: Text(
-            widget.pickMessage,
+            pickMessage,
             style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
         ),

@@ -63,7 +63,7 @@ class _TodayWidgetWidgetState extends ConsumerState<TodayWidget> {
               child: TarotSelectWidget(
                 appBarTitle: '오늘의 타로 운세',
                 titlePath: 'assets/images/child_magician.jpeg',
-                pickMessage: '신중하게 카드 1개를 골라주세요',
+                pickMessage: ['신중하게 카드 1개를 골라주세요', ].toList(),
                 cardIndex: cardIndex,
                 controllers: controllers,
                 onShuffle: shuffleImages,
