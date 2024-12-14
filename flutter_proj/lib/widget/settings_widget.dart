@@ -75,10 +75,6 @@ class SettingsWidget extends ConsumerWidget {
     }
   }
   
-  handleVideoToggle(bool value){
-    // 동영상 자동 재생 모드
-  }
-  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notificationEnable = ref.watch(notificationEnableProvider);
@@ -88,7 +84,7 @@ class SettingsWidget extends ConsumerWidget {
     final eveningPush = ref.watch(eveningPushProvider);
     final fontSize = ref.watch(fontSizeProvider);
     final cardBack = ref.watch(userSettingsProvider).cardIndex; 
-    var videoEnable = false;
+    var videoEnable = ref.watch(userSettingsProvider).autoPlay;
 
     _checkNotificationPermission(ref);
 
@@ -172,8 +168,7 @@ class SettingsWidget extends ConsumerWidget {
           SwitchListTile(
             title: const Text('동영상 자동 재생'),
             value: videoEnable,
-            onChanged: (value) => 
-            handleVideoToggle(value),
+            onChanged: (value) => ref.read(userSettingsProvider.notifier).setAutoPlay(value),
           ),
           const Divider(),
 

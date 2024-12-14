@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
 import 'package:video_player/video_player.dart';
 
-class TarotResultWidget extends StatelessWidget {
+class TarotResultWidget extends ConsumerStatefulWidget {
   final String title; // 결과 화면의 제목
   final String titlePath; // 결과 화면의 이미지 경로
   final List<TarotCardData> cardDataList; // 사용자가 고른 카드 데이터 리스트
@@ -14,10 +16,17 @@ class TarotResultWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _TarotResultWidgetState createState() => _TarotResultWidgetState();
+}
+
+class _TarotResultWidgetState extends ConsumerState<TarotResultWidget> {
+  @override
   Widget build(BuildContext context) {
+    var autoPlay = ref.read(userSettingsProvider).autoPlay;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -27,13 +36,13 @@ class TarotResultWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Image.asset(
-                titlePath,
+                widget.titlePath,
                 fit: BoxFit.cover,
               ),
             ),
 
             // 사용자가 고른 카드 설명
-            ...cardDataList.map((cardData) => TarotCardDescription(data: cardData)).toList(),
+            ...widget.cardDataList.map((cardData) => TarotCardDescription(data: cardData)).toList(),
           ],
         ),
       ),
@@ -41,7 +50,7 @@ class TarotResultWidget extends StatelessWidget {
   }
 }
 
-class TarotCardDescription extends StatefulWidget {
+class TarotCardDescription extends ConsumerStatefulWidget {
   final TarotCardData data;
 
   const TarotCardDescription({
@@ -53,14 +62,13 @@ class TarotCardDescription extends StatefulWidget {
   _TarotCardDescriptionState createState() => _TarotCardDescriptionState();
 }
 
-class _TarotCardDescriptionState extends State<TarotCardDescription>{
-  
+class _TarotCardDescriptionState extends ConsumerState<TarotCardDescription>{
   late VideoPlayerController _controller;
 
   @override
-  void initState() {
-    super.initState();
-
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
     // 동영상 경로를 사용하여 컨트롤러 초기화
     _controller = VideoPlayerController.asset(widget.data.videoPath)
       ..initialize().then((_) {
@@ -95,6 +103,8 @@ class _TarotCardDescriptionState extends State<TarotCardDescription>{
 
   @override
   Widget build(BuildContext context) {
+    var autoPlay = ref.watch(userSettingsProvider).autoPlay;
+    print('autoPlay: $autoPlay');
     return Card(
       key: ValueKey(widget.data.videoPath),
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -105,16 +115,22 @@ class _TarotCardDescriptionState extends State<TarotCardDescription>{
           children: [
             // 동영상 재생
             GestureDetector(
-              onTap: _togglePlayPause,
+              onTap: () =>
+              {
+                if(autoPlay) _togglePlayPause(),
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
                 child: AspectRatio(
                   aspectRatio: _controller.value.isInitialized
                       ? _controller.value.aspectRatio
                       : 9 / 16, // 세로 비율 유지
-                  child: _controller.value.isInitialized
+                  child: _controller.value.isInitialized && autoPlay
                       ? VideoPlayer(_controller)
-                      : const Center(child: CircularProgressIndicator()), // 로딩 중
+                      : Image.asset(
+                        widget.data.imagePath,
+                        fit: BoxFit.cover,
+                      ),
                 ),
               ),
             ),

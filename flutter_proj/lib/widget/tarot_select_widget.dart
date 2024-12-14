@@ -111,9 +111,9 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
   Widget build(BuildContext context) {
     final debugModes = ref.watch(debugModeProvider);
     final settings = ref.watch(userSettingsProvider);
-
+    final isAutoPlayMode = ref.watch(userSettingsProvider).autoPlay;
     // 위젯에서 사용
-    Text('Current Card Index: ${settings.cardIndex}');
+    Text('Current Card Index: ${settings.cardIndex}, Auto Play Mode: $isAutoPlayMode');
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
