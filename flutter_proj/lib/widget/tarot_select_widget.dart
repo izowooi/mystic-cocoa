@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mystic_cocoa/widget/left_drawer_widget.dart';
 import 'package:mystic_cocoa/widget/tarot_action_buttons.dart';
 import 'package:mystic_cocoa/widget/loading_overlay.dart';
-
+import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
 
 // Define a provider for the interpretation function
 final interpretationProvider = Provider<Function(String, int)>((ref) {
@@ -110,6 +110,10 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
   @override
   Widget build(BuildContext context) {
     final debugModes = ref.watch(debugModeProvider);
+    final settings = ref.watch(userSettingsProvider);
+
+    // 위젯에서 사용
+    Text('Current Card Index: ${settings.cardIndex}');
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +174,7 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
                       frontWidget: Card(
                         margin: EdgeInsets.zero,
                         child: Center(child: Image.asset(
-                          'assets/images/back_of_card_1.jpeg',
+                          'assets/images/card_back_${settings.cardIndex}.png',
                           //height: 80.0,
                           width: 200.0,
                           fit: BoxFit.cover)

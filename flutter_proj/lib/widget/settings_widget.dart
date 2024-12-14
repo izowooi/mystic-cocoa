@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
 
 
 final notificationEnableProvider = StateProvider<bool>((ref) {
@@ -74,6 +75,10 @@ class SettingsWidget extends ConsumerWidget {
     }
   }
   
+  handleVideoToggle(bool value){
+    // 동영상 자동 재생 모드
+  }
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notificationEnable = ref.watch(notificationEnableProvider);
@@ -82,8 +87,9 @@ class SettingsWidget extends ConsumerWidget {
     final lunchPush = ref.watch(lunchPushProvider);
     final eveningPush = ref.watch(eveningPushProvider);
     final fontSize = ref.watch(fontSizeProvider);
-    final cardBack = ref.watch(cardBackProvider);
-    
+    final cardBack = ref.watch(userSettingsProvider).cardIndex; 
+    var videoEnable = false;
+
     _checkNotificationPermission(ref);
 
     return Scaffold(
@@ -93,73 +99,81 @@ class SettingsWidget extends ConsumerWidget {
       body: ListView(
         children: [
           // 언어 설정
-          ListTile(
-            title: const Text('언어 설정'),
-            subtitle: Text(language),
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: ['ko', 'en', 'ja']
-                        .map(
-                          (lang) => ListTile(
-                            title: Text(lang),
-                            onTap: () {
-                              ref.read(languageProvider.notifier).state = lang;
-                              Navigator.pop(context);
-                            },
-                          ),
-                        )
-                        .toList(),
-                  );
-                },
-              );
-            },
-          ),
-          const Divider(),
+          // ListTile(
+          //   title: const Text('언어 설정'),
+          //   subtitle: Text(language),
+          //   onTap: () {
+          //     showModalBottomSheet(
+          //       context: context,
+          //       builder: (context) {
+          //         return Column(
+          //           mainAxisSize: MainAxisSize.min,
+          //           children: ['ko', 'en', 'ja']
+          //               .map(
+          //                 (lang) => ListTile(
+          //                   title: Text(lang),
+          //                   onTap: () {
+          //                     ref.read(languageProvider.notifier).state = lang;
+          //                     Navigator.pop(context);
+          //                   },
+          //                 ),
+          //               )
+          //               .toList(),
+          //         );
+          //       },
+          //     );
+          //   },
+          // ),
+          // const Divider(),
 
-          // 푸시 설정
-          SwitchListTile(
-            title: const Text('아침 푸시 설정'),
-            value: notificationEnable && morningPush,
-            onChanged: (value) => 
-            handlePushToggle(morningTopic, morningPushProvider, value, ref),
-          ),
-          SwitchListTile(
-            title: const Text('점심 푸시 설정'),
-            value: notificationEnable && lunchPush,
-            onChanged: (value) =>
-            handlePushToggle(lunchTopic, lunchPushProvider, value, ref),
-          ),
-          SwitchListTile(
-            title: const Text('저녁 푸시 설정'),
-            value: notificationEnable && eveningPush,
-            onChanged: (value) =>
-            handlePushToggle(eveningTopic, eveningPushProvider, value, ref),
-          ),
-          const Divider(),
+          // // 푸시 설정
+          // SwitchListTile(
+          //   title: const Text('아침 푸시 설정'),
+          //   value: notificationEnable && morningPush,
+          //   onChanged: (value) => 
+          //   handlePushToggle(morningTopic, morningPushProvider, value, ref),
+          // ),
+          // SwitchListTile(
+          //   title: const Text('점심 푸시 설정'),
+          //   value: notificationEnable && lunchPush,
+          //   onChanged: (value) =>
+          //   handlePushToggle(lunchTopic, lunchPushProvider, value, ref),
+          // ),
+          // SwitchListTile(
+          //   title: const Text('저녁 푸시 설정'),
+          //   value: notificationEnable && eveningPush,
+          //   onChanged: (value) =>
+          //   handlePushToggle(eveningTopic, eveningPushProvider, value, ref),
+          // ),
+          // const Divider(),
 
-          // 글자 크기 조정
-          ListTile(
-            title: const Text('글자 크기 조정'),
-            subtitle: Slider(
-              value: fontSize,
-              min: 1,
-              max: 100,
-              divisions: 99,
-              label: fontSize.toStringAsFixed(0),
-              onChanged: (value) =>
-                  ref.read(fontSizeProvider.notifier).state = value,
-            ),
-          ),
-          const Divider(),
+          // // 글자 크기 조정
+          // ListTile(
+          //   title: const Text('글자 크기 조정'),
+          //   subtitle: Slider(
+          //     value: fontSize,
+          //     min: 1,
+          //     max: 100,
+          //     divisions: 99,
+          //     label: fontSize.toStringAsFixed(0),
+          //     onChanged: (value) =>
+          //         ref.read(fontSizeProvider.notifier).state = value,
+          //   ),
+          // ),
+          // const Divider(),
 
           // 버전 정보
           ListTile(
             title: const Text('버전 정보'),
             subtitle: Text('1.0.0'),
+          ),
+          const Divider(),
+          // 동영상 자동 재생 모드
+          SwitchListTile(
+            title: const Text('동영상 자동 재생'),
+            value: videoEnable,
+            onChanged: (value) => 
+            handleVideoToggle(value),
           ),
           const Divider(),
 
@@ -171,8 +185,10 @@ class SettingsWidget extends ConsumerWidget {
               children: List.generate(
                 4,
                 (index) => GestureDetector(
-                  onTap: () =>
-                      ref.read(cardBackProvider.notifier).state = index,
+                  onTap: () => {
+                    ref.read(cardBackProvider.notifier).state = index,
+                    ref.read(userSettingsProvider.notifier).setCardIndex(index),
+                  },  
                   child: Container(
                     width: 50,
                     height: 70,
