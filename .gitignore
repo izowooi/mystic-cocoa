@@ -28,3 +28,5 @@ flutter_proj/flutter-plugins-dependencies
 flutter_proj/lib/firebase_options.dart
 flutter_proj/ios/Runner/GoogleService-Info.plist
 flutter_proj/firebase.json
+secure/mystic-cocoa.jks
+secure/mystic-cocoa-keystore.properties
