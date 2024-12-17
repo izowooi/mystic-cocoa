@@ -7,6 +7,9 @@ import 'package:mystic_cocoa/widget/left_drawer_widget.dart';
 import 'package:mystic_cocoa/widget/tarot_action_buttons.dart';
 import 'package:mystic_cocoa/widget/loading_overlay.dart';
 import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:mystic_cocoa/main.dart';
+
 
 // Define a provider for the interpretation function
 final interpretationProvider = Provider<Function(String, int)>((ref) {
@@ -91,8 +94,20 @@ class _TarotSelectWidgetState extends ConsumerState<TarotSelectWidget> {
       selectedCardIndices.clear();
     });
   }
-  
+
+  Future<void> _sendCustomEvent() async {
+    print("Custom event sent! begin ${ref.read(sceneNameProvider.notifier).state}");
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'tarot_result',
+      parameters: {
+        'scenename': ref.read(sceneNameProvider.notifier).state,
+      },
+    );
+    print("Custom event sent! end");
+  }
+
   void _onFlipEnd() async {
+    _sendCustomEvent();
     await Navigator.push(
       context,
       MaterialPageRoute(

@@ -11,6 +11,10 @@ import 'package:mystic_cocoa/widget/yearly_widget.dart';
 import 'package:mystic_cocoa/widget/settings_widget.dart';
 import 'dart:io';
 
+final sceneNameProvider = StateProvider<String>((ref) {
+  return "";
+});
+
 final navigationIndexProvider = StateProvider<int>((ref) {
   return 0;
 });
@@ -36,6 +40,8 @@ class MainApp extends ConsumerWidget {
 
   MainApp({super.key});
 
+  final List<String> sceneNames = ['today', 'monthly', 'yearly', 'settings'];
+
   // 탭별 색상 설정
   Color getSelectedItemColor(int index) {
     switch (index) {
@@ -49,7 +55,6 @@ class MainApp extends ConsumerWidget {
         return Colors.black12;
     }
   }
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,6 +76,7 @@ class MainApp extends ConsumerWidget {
         selectedIndex: currentPageIndex,
         indicatorColor: getSelectedItemColor(currentPageIndex),
         onDestinationSelected: (index) {
+            ref.read(sceneNameProvider.notifier).state = sceneNames[index];
             ref.read(navigationIndexProvider.notifier).state = index;
           },
         ),
