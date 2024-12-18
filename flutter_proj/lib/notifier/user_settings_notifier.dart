@@ -5,23 +5,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserSettings {
   final int cardIndex;
   final bool autoPlay;
+  final String locale;
 
   const UserSettings({
     required this.cardIndex,
     required this.autoPlay,
+    required this.locale,
   });
 
-  UserSettings copyWith({int? cardIndex, bool? autoPlay}) {
+  UserSettings copyWith({int? cardIndex, bool? autoPlay, String? locale}) {
     return UserSettings(
       cardIndex: cardIndex ?? this.cardIndex,
       autoPlay: autoPlay ?? this.autoPlay,
+      locale: locale ?? this.locale,
     );
   }
 }
 
 /// UserSettings 상태를 관리하는 StateNotifier
 class UserSettingsNotifier extends StateNotifier<UserSettings> {
-  UserSettingsNotifier() : super(const UserSettings(cardIndex: 0, autoPlay: false)) {
+  UserSettingsNotifier() : super(const UserSettings(cardIndex: 0, autoPlay: false, locale: 'ko')) {
     _loadFromPreferences();
   }
 
@@ -30,7 +33,8 @@ class UserSettingsNotifier extends StateNotifier<UserSettings> {
     final prefs = await SharedPreferences.getInstance();
     final savedCardIndex = prefs.getInt('cardIndex') ?? 0;
     final savedAutoPlay = prefs.getBool('autoPlay') ?? false;
-    state = UserSettings(cardIndex: savedCardIndex, autoPlay: savedAutoPlay);
+    final locale = prefs.getString('locale') ?? 'ko';
+    state = UserSettings(cardIndex: savedCardIndex, autoPlay: savedAutoPlay, locale: locale);
   }
 
   /// 카드 인덱스 설정
@@ -45,6 +49,12 @@ class UserSettingsNotifier extends StateNotifier<UserSettings> {
     state = state.copyWith(autoPlay: value);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('autoPlay', value);
+  }
+  
+  Future<void> setLocale(String locale) async {
+    state = state.copyWith(locale: locale);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('locale', locale);
   }
 }
 
