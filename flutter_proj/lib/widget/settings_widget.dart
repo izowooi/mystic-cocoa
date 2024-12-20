@@ -1,9 +1,11 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mystic_cocoa/controller/localize.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
-
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 final notificationEnableProvider = StateProvider<bool>((ref) {
   return false;
@@ -74,26 +76,105 @@ class SettingsWidget extends ConsumerWidget {
       await unsubscribeFromTopic(pushTopic, ref);
     }
   }
+
+  Future<void> _sendCustomEvent() async {
+    print("Custom event sent! begin");
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'custom_event',
+      parameters: {
+        'user_id': '12345',
+        'event_description': 'This is a custom event',
+      },
+    );
+    print("Custom event sent! end");
+  }
   
+  void _changeLanguage(BuildContext context, String locale) async {
+    await Localize().initialize(locale);
+    // 선택된 언어로 UI를 다시 빌드
+    //(context as Element).markNeedsBuild();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notificationEnable = ref.watch(notificationEnableProvider);
-    final language = ref.watch(languageProvider);
+    
     final morningPush = ref.watch(morningPushProvider);
     final lunchPush = ref.watch(lunchPushProvider);
     final eveningPush = ref.watch(eveningPushProvider);
     final fontSize = ref.watch(fontSizeProvider);
     final cardBack = ref.watch(userSettingsProvider).cardIndex; 
     var videoEnable = ref.watch(userSettingsProvider).autoPlay;
+    final selectedLanguage = ref.watch(userSettingsProvider).locale;
+    
 
     _checkNotificationPermission(ref);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('설정'),
+        title: Text(Localize().get('settings')),
       ),
       body: ListView(
         children: [
+ListTile(
+            title: Text(Localize().get('language')),
+          ),
+          RadioListTile<String>(
+            title: const Text('한국어'),
+            value: 'ko',
+            groupValue: selectedLanguage,
+            onChanged: (value) {
+              if (value != null) {
+                _changeLanguage(context, value);
+                ref.read(userSettingsProvider.notifier).setLocale(value);
+              }
+            },
+          ),
+          RadioListTile<String>(
+            title: const Text('English'),
+            value: 'en',
+            groupValue: selectedLanguage,
+            onChanged: (value) {
+              if (value != null) {
+                _changeLanguage(context, value);
+                ref.read(userSettingsProvider.notifier).setLocale(value);
+              }
+            },
+          ),
+          RadioListTile<String>(
+            title: const Text('日本語'),
+            value: 'jp',
+            groupValue: selectedLanguage,
+            onChanged: (value) {
+              if (value != null) {
+                _changeLanguage(context, value);
+                ref.read(userSettingsProvider.notifier).setLocale(value);
+              }
+            },
+          ),
+          RadioListTile<String>(
+            title: const Text('中文'),
+            value: 'zh',
+            groupValue: selectedLanguage,
+            onChanged: (value) {
+              if (value != null) {
+                _changeLanguage(context, value);
+                ref.read(userSettingsProvider.notifier).setLocale(value);
+              }
+            },
+          ),
+          RadioListTile<String>(
+            title: const Text('العربية'),
+            value: 'ar',
+            groupValue: selectedLanguage,
+            onChanged: (value) {
+              if (value != null) {
+                _changeLanguage(context, value);
+                ref.read(userSettingsProvider.notifier).setLocale(value);
+              }
+            },
+          ),
+          const Divider(),
           // 언어 설정
           // ListTile(
           //   title: const Text('언어 설정'),
@@ -160,13 +241,13 @@ class SettingsWidget extends ConsumerWidget {
 
           // 버전 정보
           ListTile(
-            title: const Text('버전 정보'),
+            title: Text(Localize().get('version_info')),
             subtitle: Text('1.0.0'),
           ),
           const Divider(),
           // 동영상 자동 재생 모드
           SwitchListTile(
-            title: const Text('동영상 자동 재생'),
+            title: Text(Localize().get('auto_play_video')),
             value: videoEnable,
             onChanged: (value) => ref.read(userSettingsProvider.notifier).setAutoPlay(value),
           ),
@@ -174,7 +255,7 @@ class SettingsWidget extends ConsumerWidget {
 
           // 카드 뒷면 선택
           ListTile(
-            title: const Text('카드 뒷면 선택'),
+            title: Text(Localize().get('choose_card_back')),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: List.generate(
@@ -203,8 +284,25 @@ class SettingsWidget extends ConsumerWidget {
               ),
             ),
           ),
+          
+          const Divider(),
+          ListTile(
+            title: const Text('test button 1'),
+            subtitle: ElevatedButton(onPressed: (){
+              print('hello 1');
+              Localize().initialize('ko');
+            }, child: Text('button 1')),
+          ),
+          ListTile(
+            title: const Text('test button 2'),
+            subtitle: ElevatedButton(onPressed: (){
+              var start = Localize().get('start');
+              print('hello 2 : $start');
+            }, child: Text('button 2')),
+          )
         ],
       ),
     );
+    
   }
 }

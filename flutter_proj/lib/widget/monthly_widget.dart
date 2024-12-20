@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
+import 'package:mystic_cocoa/controller/localize.dart';
 import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
 import 'package:mystic_cocoa/widget/loading_overlay.dart';
 import 'tarot_select_widget.dart';
@@ -49,7 +50,7 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
         children: [
           Scaffold(
             appBar: AppBar(
-              title: const Text('이달의 타로 운세'),
+              title: Text(Localize().get('monthly_tarot_fortune')),
               backgroundColor: Colors.lightBlue.shade100,
             ),
             body: Container(
@@ -61,9 +62,9 @@ class _MonthlyWidgetState extends ConsumerState<MonthlyWidget> {
                 ),
               ),
               child: TarotSelectWidget(
-                appBarTitle: '이달의 타로 운세',
+                appBarTitle: Localize().get('monthly_tarot_fortune'),
                 titlePath: 'assets/images/teenage_magician.jpeg',
-                pickMessage: ['신중하게 카드 1개를 골라주세요', ].toList(),
+                pickMessage: [Localize().get('choose_carefully_one_card'), ].toList(),
                 cardIndex: cardIndex,
                 controllers: controllers,
                 onShuffle: shuffleImages,

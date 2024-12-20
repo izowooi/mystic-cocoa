@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
+import 'package:mystic_cocoa/controller/localize.dart';
 import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
 import 'package:mystic_cocoa/widget/loading_overlay.dart';
 import 'tarot_select_widget.dart';
@@ -49,7 +50,7 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
         children: [
           Scaffold(
             appBar: AppBar(
-              title: const Text('올해의 타로 운세'),
+              title: Text(Localize().get('yearly_tarot_fortune')),
               backgroundColor: Colors.yellow.shade100,
             ),
             body: Container(
@@ -61,9 +62,13 @@ class _YearlyWidgetState extends ConsumerState<YearlyWidget> {
                 ),
               ),
               child: TarotSelectWidget(
-                appBarTitle: '올해의 타로 운세',
+                appBarTitle: Localize().get('yearly_tarot_fortune'),
                 titlePath: 'assets/images/adult_magician.jpeg',
-                pickMessage: ['재물운 카드를 1개 골라주세요 ( 1|4 )', '건강운 카드를 1개 골라주세요 ( 2|4 )', '연애운 카드를 1개 골라주세요 ( 3|4 )', '직장운 카드를 1개 골라주세요 ( 4|4 )', ].toList(),
+                pickMessage: [
+                  '${Localize().get('choose_wealth_fortune_card')} ( 1|4 )',
+                  '${Localize().get('choose_health_fortune_card')} ( 2|4 )',
+                  '${Localize().get('choose_love_fortune_card')} ( 3|4 )',
+                  '${Localize().get('choose_career_fortune_card')} ( 4|4 )', ].toList(),
                 cardIndex: cardIndex,
                 controllers: controllers,
                 onShuffle: shuffleImages,

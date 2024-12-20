@@ -3,7 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mystic_cocoa/controller/localize.dart';
 import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
+import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
 import 'package:mystic_cocoa/widget/left_drawer_widget.dart';
 import 'package:mystic_cocoa/widget/today_widget.dart';
 import 'package:mystic_cocoa/widget/monthly_widget.dart';
@@ -23,6 +25,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 바인딩 초기화
   final String defaultLocale = Platform.localeName;
   print('Default locale: $defaultLocale');
+  Localize().initialize('ko');
 
   final TarotDataController tarotController = TarotDataController();
   await Firebase.initializeApp();
@@ -60,18 +63,18 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final currentPageIndex = ref.watch(navigationIndexProvider);
-
+    final selectedLanguage = ref.watch(userSettingsProvider).locale;
     return MaterialApp(
       home: Builder(builder: (context){
         Locale locale = Localizations.localeOf(context);
         print('Language code: ${locale.languageCode}');
         return Scaffold(
         bottomNavigationBar: NavigationBar(
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.wb_sunny), label: '오늘의 운세'),
-          NavigationDestination(icon: Icon(Icons.calendar_month), label: '이달의 운세'),
-          NavigationDestination(icon: Icon(Icons.timeline), label: '올해의 운세'),
-          NavigationDestination(icon: Icon(Icons.settings), label: '설정'),
+        destinations: [
+          NavigationDestination(icon: Icon(Icons.wb_sunny), label: Localize().get('today_fortune')),
+          NavigationDestination(icon: Icon(Icons.calendar_month), label: Localize().get('monthly_fortune')),
+          NavigationDestination(icon: Icon(Icons.timeline), label: Localize().get('yearly_fortune')),
+          NavigationDestination(icon: Icon(Icons.settings), label: Localize().get('settings')),
         ],
         selectedIndex: currentPageIndex,
         indicatorColor: getSelectedItemColor(currentPageIndex),

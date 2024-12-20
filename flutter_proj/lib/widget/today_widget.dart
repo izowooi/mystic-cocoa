@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
+import 'package:mystic_cocoa/controller/localize.dart';
 import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
 import 'package:mystic_cocoa/widget/loading_overlay.dart';
 import 'tarot_select_widget.dart';
@@ -49,7 +50,7 @@ class _TodayWidgetWidgetState extends ConsumerState<TodayWidget> {
         children: [
           Scaffold(
             appBar: AppBar(
-              title: const Text('오늘의 타로 운세'),
+              title: Text(Localize().get('today_tarot_fortune')),
               backgroundColor: Colors.lightGreen.shade100,
             ),
             body: Container(
@@ -61,9 +62,9 @@ class _TodayWidgetWidgetState extends ConsumerState<TodayWidget> {
                 ),
               ),
               child: TarotSelectWidget(
-                appBarTitle: '오늘의 타로 운세',
+                appBarTitle: Localize().get('today_tarot_fortune'),
                 titlePath: 'assets/images/child_magician.jpeg',
-                pickMessage: ['신중하게 카드 1개를 골라주세요', ].toList(),
+                pickMessage: [Localize().get('choose_carefully_one_card'), ].toList(),
                 cardIndex: cardIndex,
                 controllers: controllers,
                 onShuffle: shuffleImages,
