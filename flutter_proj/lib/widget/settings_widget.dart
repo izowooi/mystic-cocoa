@@ -239,12 +239,6 @@ ListTile(
           // ),
           // const Divider(),
 
-          // 버전 정보
-          ListTile(
-            title: Text(Localize().get('version_info')),
-            subtitle: Text('1.0.0'),
-          ),
-          const Divider(),
           // 동영상 자동 재생 모드
           SwitchListTile(
             title: Text(Localize().get('auto_play_video')),
@@ -284,22 +278,28 @@ ListTile(
               ),
             ),
           ),
-          
-          const Divider(),
+          // 버전 정보
           ListTile(
-            title: const Text('test button 1'),
-            subtitle: ElevatedButton(onPressed: (){
-              print('hello 1');
-              Localize().initialize('ko');
-            }, child: Text('button 1')),
+            title: Text(Localize().get('version_info')),
+            subtitle: Text('1.0.0'),
           ),
-          ListTile(
-            title: const Text('test button 2'),
-            subtitle: ElevatedButton(onPressed: (){
-              var start = Localize().get('start');
-              print('hello 2 : $start');
-            }, child: Text('button 2')),
-          )
+          const Divider(),
+
+          // const Divider(),
+          // ListTile(
+          //   title: const Text('test button 1'),
+          //   subtitle: ElevatedButton(onPressed: (){
+          //     print('hello 1');
+          //     Localize().initialize('ko');
+          //   }, child: Text('button 1')),
+          // ),
+          // ListTile(
+          //   title: const Text('test button 2'),
+          //   subtitle: ElevatedButton(onPressed: (){
+          //     var start = Localize().get('start');
+          //     print('hello 2 : $start');
+          //   }, child: Text('button 2')),
+          // )
         ],
       ),
     );
