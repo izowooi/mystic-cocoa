@@ -1,1 +1,19 @@
-{"start":"시작", "menu":"메뉴"}
+{
+    "start": "시작",
+    "menu": "메뉴",
+    "today_fortune": "오늘의 운세",
+    "monthly_fortune": "이달의 운세",
+    "yearly_fortune": "올해의 운세",
+    "settings": "설정",
+    "choose_carefully_one_card": "신중하게 1개를 골라주세요",
+    "choose_wealth_fortune_card": "재물운 카드를 1개를 골라주세요",
+    "choose_health_fortune_card": "건강운 카드를 1개를 골라주세요",
+    "choose_love_fortune_card": "연애운 카드를 1개를 골라주세요",
+    "choose_career_fortune_card": "직장운 카드를 1개를 골라주세요",
+    "today_tarot_fortune": "오늘의 타로 운세",
+    "monthly_tarot_fortune": "이달의 타로 운세",
+    "yearly_tarot_fortune": "올해의 타로 운세",
+    "version_info": "버전 정보",
+    "auto_play_video": "동영상 자동 재생",
+    "choose_card_back": "카드 뒷면 선택"
+  }

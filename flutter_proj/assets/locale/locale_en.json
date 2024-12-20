@@ -1,1 +1,19 @@
-{"start":"Start", "menu":"Menu"}
+{
+    "start": "Start",
+    "menu": "Menu",
+    "today_fortune": "Today's Fortune",
+    "monthly_fortune": "This Month's Fortune",
+    "yearly_fortune": "This Year's Fortune",
+    "settings": "Settings",
+    "choose_carefully_one_card": "Choose carefully one card",
+    "choose_wealth_fortune_card": "Choose one card for Wealth Fortune",
+    "choose_health_fortune_card": "Choose one card for Health Fortune",
+    "choose_love_fortune_card": "Choose one card for Love Fortune",
+    "choose_career_fortune_card": "Choose one card for Career Fortune",
+    "today_tarot_fortune": "Today's Tarot Fortune",
+    "monthly_tarot_fortune": "This Month's Tarot Fortune",
+    "yearly_tarot_fortune": "This Year's Tarot Fortune",
+    "version_info": "Version Info",
+    "auto_play_video": "Auto Play Video",
+    "choose_card_back": "Choose Card Back"
+  }

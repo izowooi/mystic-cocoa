@@ -1,0 +1,19 @@
+{
+    "start": "开始",
+    "menu": "菜单",
+    "today_fortune": "今日运势",
+    "monthly_fortune": "本月运势",
+    "yearly_fortune": "今年运势",
+    "settings": "设置",
+    "choose_carefully_one_card": "仔细选择一张卡片",
+    "choose_wealth_fortune_card": "选择一张财富运势卡片",
+    "choose_health_fortune_card": "选择一张健康运势卡片",
+    "choose_love_fortune_card": "选择一张爱情运势卡片",
+    "choose_career_fortune_card": "选择一张事业运势卡片",
+    "today_tarot_fortune": "今日塔罗运势",
+    "monthly_tarot_fortune": "本月塔罗运势",
+    "yearly_tarot_fortune": "今年塔罗运势",
+    "version_info": "版本信息",
+    "auto_play_video": "自动播放视频",
+    "choose_card_back": "选择卡片背面"
+  }

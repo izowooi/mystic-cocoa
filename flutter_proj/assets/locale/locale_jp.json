@@ -1,0 +1,19 @@
+{
+    "start": "開始",
+    "menu": "メニュー",
+    "today_fortune": "今日の運勢",
+    "monthly_fortune": "今月の運勢",
+    "yearly_fortune": "今年の運勢",
+    "settings": "設定",
+    "choose_carefully_one_card": "慎重に1枚のカードを選んでください",
+    "choose_wealth_fortune_card": "財運のカードを1枚選んでください",
+    "choose_health_fortune_card": "健康運のカードを1枚選んでください",
+    "choose_love_fortune_card": "恋愛運のカードを1枚選んでください",
+    "choose_career_fortune_card": "仕事運のカードを1枚選んでください",
+    "today_tarot_fortune": "今日のタロット運勢",
+    "monthly_tarot_fortune": "今月のタロット運勢",
+    "yearly_tarot_fortune": "今年のタロット運勢",
+    "version_info": "バージョン情報",
+    "auto_play_video": "ビデオの自動再生",
+    "choose_card_back": "カード裏面を選択"
+  }
