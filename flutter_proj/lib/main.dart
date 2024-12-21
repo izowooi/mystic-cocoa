@@ -24,12 +24,12 @@ final navigationIndexProvider = StateProvider<int>((ref) {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 바인딩 초기화
-  await Localize().initialize();
+  String languageCode = await Localize().initialize();
 
   final TarotDataController tarotController = TarotDataController();
   await Firebase.initializeApp();
   // Initialize controller
-  await tarotController.initialize();
+  await tarotController.initialize(languageCode);
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) {

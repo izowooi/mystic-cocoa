@@ -28,14 +28,14 @@ class TarotDataController {
   final List<String> suits = ["Wands", "Cups", "Swords", "Pentacles"];
 
   // Initialization function
-  Future<void> initialize() async {
+  Future<void> initialize(String languageCode) async {
     // Load JSON files
-    final wealthData = await _loadJsonFile('assets/tarot_data/major_arcana_wealth.json');
-    final healthData = await _loadJsonFile('assets/tarot_data/major_arcana_health.json');
-    final loveData = await _loadJsonFile('assets/tarot_data/major_arcana_love.json');
-    final careerData = await _loadJsonFile('assets/tarot_data/major_arcana_career.json');
-    final todayData = await _loadJsonFile('assets/tarot_data/major_arcana_today.json');
-    final monthData = await _loadJsonFile('assets/tarot_data/major_arcana_month.json');
+    final wealthData = await _loadJsonFile('assets/tarot_data/major_arcana_wealth_$languageCode.json');
+    final healthData = await _loadJsonFile('assets/tarot_data/major_arcana_health_$languageCode.json');
+    final loveData = await _loadJsonFile('assets/tarot_data/major_arcana_love_$languageCode.json');
+    final careerData = await _loadJsonFile('assets/tarot_data/major_arcana_career_$languageCode.json');
+    final todayData = await _loadJsonFile('assets/tarot_data/major_arcana_today_$languageCode.json');
+    final monthData = await _loadJsonFile('assets/tarot_data/major_arcana_month_$languageCode.json');
     final namesData = await _loadJsonFile('assets/tarot_data/major_arcana_names.json');
 
     // Populate maps

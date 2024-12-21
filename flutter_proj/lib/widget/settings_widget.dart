@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mystic_cocoa/controller/localize.dart';
+import 'package:mystic_cocoa/controller/tarot_data_controller.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -89,10 +90,10 @@ class SettingsWidget extends ConsumerWidget {
     print("Custom event sent! end");
   }
   
-  void _changeLanguage(BuildContext context, String locale) async {
+  void _changeLanguage(WidgetRef ref, String locale) async {
     await Localize().loadLocale(locale);
-    // 선택된 언어로 UI를 다시 빌드
-    //(context as Element).markNeedsBuild();
+    TarotDataController().initialize(locale);
+    ref.read(userSettingsProvider.notifier).setLocale(locale);
   }
 
   @override
@@ -125,8 +126,7 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(context, value);
-                ref.read(userSettingsProvider.notifier).setLocale(value);
+                _changeLanguage(ref, value);
               }
             },
           ),
@@ -136,8 +136,7 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(context, value);
-                ref.read(userSettingsProvider.notifier).setLocale(value);
+                _changeLanguage(ref, value);
               }
             },
           ),
@@ -147,8 +146,7 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(context, value);
-                ref.read(userSettingsProvider.notifier).setLocale(value);
+                _changeLanguage(ref, value);
               }
             },
           ),
@@ -158,8 +156,7 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(context, value);
-                ref.read(userSettingsProvider.notifier).setLocale(value);
+                _changeLanguage(ref, value);
               }
             },
           ),
@@ -169,39 +166,11 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(context, value);
-                ref.read(userSettingsProvider.notifier).setLocale(value);
+                _changeLanguage(ref, value);
               }
             },
           ),
           const Divider(),
-          // 언어 설정
-          // ListTile(
-          //   title: const Text('언어 설정'),
-          //   subtitle: Text(language),
-          //   onTap: () {
-          //     showModalBottomSheet(
-          //       context: context,
-          //       builder: (context) {
-          //         return Column(
-          //           mainAxisSize: MainAxisSize.min,
-          //           children: ['ko', 'en', 'ja']
-          //               .map(
-          //                 (lang) => ListTile(
-          //                   title: Text(lang),
-          //                   onTap: () {
-          //                     ref.read(languageProvider.notifier).state = lang;
-          //                     Navigator.pop(context);
-          //                   },
-          //                 ),
-          //               )
-          //               .toList(),
-          //         );
-          //       },
-          //     );
-          //   },
-          // ),
-          // const Divider(),
 
           // // 푸시 설정
           // SwitchListTile(

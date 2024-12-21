@@ -34,16 +34,17 @@ class Localize {
     return validLanguages.contains(languageCode) ? languageCode : 'ko';
   }
 
-  Future<void> initialize() async{
-    String storedLanguageCode = await getStoredLanguageCode();
+  Future<String> initialize() async{
+    String languageCode = await getStoredLanguageCode();
     
-    if (storedLanguageCode != 'none') {
-      await Localize().loadLocale(storedLanguageCode);
+    if (languageCode != 'none') {
+      await Localize().loadLocale(languageCode);
     } else {
-      final String languageCode = getLanguageCode(Platform.localeName);
+      languageCode = getLanguageCode(Platform.localeName);
       await saveLanguageCode(languageCode);
       await Localize().loadLocale(languageCode);
     }
+    return languageCode;
   }
   
 
