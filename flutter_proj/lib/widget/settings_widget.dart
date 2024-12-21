@@ -90,7 +90,7 @@ class SettingsWidget extends ConsumerWidget {
   }
   
   void _changeLanguage(BuildContext context, String locale) async {
-    await Localize().initialize(locale);
+    await Localize().loadLocale(locale);
     // 선택된 언어로 UI를 다시 빌드
     //(context as Element).markNeedsBuild();
   }

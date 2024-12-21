@@ -11,7 +11,7 @@ import 'package:mystic_cocoa/widget/today_widget.dart';
 import 'package:mystic_cocoa/widget/monthly_widget.dart';
 import 'package:mystic_cocoa/widget/yearly_widget.dart';
 import 'package:mystic_cocoa/widget/settings_widget.dart';
-import 'dart:io';
+
 
 final sceneNameProvider = StateProvider<String>((ref) {
   return "";
@@ -21,11 +21,10 @@ final navigationIndexProvider = StateProvider<int>((ref) {
   return 0;
 });
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 바인딩 초기화
-  final String defaultLocale = Platform.localeName;
-  print('Default locale: $defaultLocale');
-  Localize().initialize('ko');
+  await Localize().initialize();
 
   final TarotDataController tarotController = TarotDataController();
   await Firebase.initializeApp();

@@ -37,6 +37,7 @@ class UserSettingsNotifier extends StateNotifier<UserSettings> {
     state = UserSettings(cardIndex: savedCardIndex, autoPlay: savedAutoPlay, locale: locale);
   }
 
+
   /// 카드 인덱스 설정
   Future<void> setCardIndex(int index) async {
     state = state.copyWith(cardIndex: index);

@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
 
 class Localize {
   static final Localize _instance = Localize._internal();
@@ -12,7 +15,42 @@ class Localize {
 
   Map<String, String>? _localizedStrings;
 
-  Future<void> initialize(String locale) async {
+  Future<String> getStoredLanguageCode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final locale = prefs.getString('locale') ?? 'none';
+    return locale;
+  }
+
+  Future<void> saveLanguageCode(String locale) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('locale', locale);
+  }
+
+  String getLanguageCode(String locale) {
+    final String languageCode = locale.split('_').first;
+
+    const List<String> validLanguages = ['ko', 'en', 'ja', 'zh', 'ar'];
+
+    return validLanguages.contains(languageCode) ? languageCode : 'ko';
+  }
+
+  Future<void> initialize() async{
+    String storedLanguageCode = await getStoredLanguageCode();
+    
+    if (storedLanguageCode != 'none') {
+      await Localize().loadLocale(storedLanguageCode);
+    } else {
+      final String languageCode = getLanguageCode(Platform.localeName);
+      await saveLanguageCode(languageCode);
+      await Localize().loadLocale(languageCode);
+    }
+  }
+  
+
+
+  Future<void> loadLocale(String locale) async {
+    print('loadLocale: $locale');
+
     final jsonPath = 'assets/locale/locale_$locale.json';
     const fallbackPath = 'assets/locale/locale_ko.json';
 
