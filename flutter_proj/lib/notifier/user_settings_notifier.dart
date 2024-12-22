@@ -6,25 +6,28 @@ class UserSettings {
   final int cardIndex;
   final bool autoPlay;
   final String locale;
+  final bool push;
 
   const UserSettings({
     required this.cardIndex,
     required this.autoPlay,
     required this.locale,
+    required this.push,
   });
 
-  UserSettings copyWith({int? cardIndex, bool? autoPlay, String? locale}) {
+  UserSettings copyWith({int? cardIndex, bool? autoPlay, String? locale, bool? push}) {
     return UserSettings(
       cardIndex: cardIndex ?? this.cardIndex,
       autoPlay: autoPlay ?? this.autoPlay,
       locale: locale ?? this.locale,
+      push: push ?? this.push,
     );
   }
 }
 
 /// UserSettings 상태를 관리하는 StateNotifier
 class UserSettingsNotifier extends StateNotifier<UserSettings> {
-  UserSettingsNotifier() : super(const UserSettings(cardIndex: 0, autoPlay: false, locale: 'ko')) {
+  UserSettingsNotifier() : super(const UserSettings(cardIndex: 0, autoPlay: false, locale: 'ko', push: false)) {
     _loadFromPreferences();
   }
 
@@ -34,7 +37,8 @@ class UserSettingsNotifier extends StateNotifier<UserSettings> {
     final savedCardIndex = prefs.getInt('cardIndex') ?? 0;
     final savedAutoPlay = prefs.getBool('autoPlay') ?? false;
     final locale = prefs.getString('locale') ?? 'ko';
-    state = UserSettings(cardIndex: savedCardIndex, autoPlay: savedAutoPlay, locale: locale);
+    final push = prefs.getBool('push') ?? false;
+    state = UserSettings(cardIndex: savedCardIndex, autoPlay: savedAutoPlay, locale: locale, push: push);
   }
 
 
@@ -56,6 +60,12 @@ class UserSettingsNotifier extends StateNotifier<UserSettings> {
     state = state.copyWith(locale: locale);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('locale', locale);
+  }
+
+  Future<void> setPush(bool enable) async {
+    state = state.copyWith(push: enable);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('push', enable);
   }
 }
 

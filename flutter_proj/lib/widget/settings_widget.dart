@@ -8,20 +8,8 @@ import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-final notificationEnableProvider = StateProvider<bool>((ref) {
-  return false;
-});
 final languageProvider = StateProvider<String>((ref) {
   return "ko";
-});
-final morningPushProvider = StateProvider<bool>((ref) {
-  return false;
-});
-final lunchPushProvider = StateProvider<bool>((ref) {
-  return false;
-});
-final eveningPushProvider = StateProvider<bool>((ref) {
-  return false;
 });
 final fontSizeProvider = StateProvider<double>((ref) {
   return 16;
@@ -34,16 +22,13 @@ final cardBackProvider = StateProvider<int>((ref) {
 class SettingsWidget extends ConsumerWidget {
 
   SettingsWidget({Key? key}) : super(key: key);
-  final String morningTopic = 'morning_utc9_kr';//ex) morning_utc-9_en
-  final String lunchTopic = 'lunch_utc9_kr';
-  final String eveningTopic = 'evening_utc9_kr';
+  final String topic = 'morning_utc9_kr';//ex) morning_utc-9_en
 
   bool _isPermissionGranted = false;
 
   // 권한 상태 확인
   Future<void> _checkNotificationPermission(WidgetRef ref) async {
     _isPermissionGranted = await Permission.notification.isGranted;
-    ref.read(notificationEnableProvider.notifier).state = _isPermissionGranted;
   }
   
   Future<bool> subscribeToTopic(String topic, WidgetRef ref) async{
@@ -51,7 +36,6 @@ class SettingsWidget extends ConsumerWidget {
     if(!isPermissionGranted){
       final state = await Permission.notification.request();
       if(state.isGranted){
-        ref.read(notificationEnableProvider.notifier).state = true;
       } else if(state.isDenied){
         return false;
       } else if(state.isPermanentlyDenied){
@@ -67,13 +51,13 @@ class SettingsWidget extends ConsumerWidget {
     await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
   }
 
-  handlePushToggle(String pushTopic, StateProvider pushProvider, bool value, WidgetRef ref) async{
+  handlePushToggle(String pushTopic, bool value, WidgetRef ref) async{
     if(value){
-      ref.read(pushProvider.notifier).state = true;
+      ref.read(userSettingsProvider.notifier).setPush(true);
       bool subscribed = await subscribeToTopic(pushTopic, ref);
-      ref.read(pushProvider.notifier).state = subscribed;
+      ref.read(userSettingsProvider.notifier).setPush(subscribed);
     } else {
-      ref.read(pushProvider.notifier).state = false;
+      ref.read(userSettingsProvider.notifier).setPush(false);
       await unsubscribeFromTopic(pushTopic, ref);
     }
   }
@@ -98,17 +82,12 @@ class SettingsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notificationEnable = ref.watch(notificationEnableProvider);
-    
-    final morningPush = ref.watch(morningPushProvider);
-    final lunchPush = ref.watch(lunchPushProvider);
-    final eveningPush = ref.watch(eveningPushProvider);
     final fontSize = ref.watch(fontSizeProvider);
     final cardBack = ref.watch(userSettingsProvider).cardIndex; 
     var videoEnable = ref.watch(userSettingsProvider).autoPlay;
     final selectedLanguage = ref.watch(userSettingsProvider).locale;
+    final pushEnable = ref.watch(userSettingsProvider).push;
     
-
     _checkNotificationPermission(ref);
 
     return Scaffold(
@@ -172,26 +151,14 @@ ListTile(
           ),
           const Divider(),
 
-          // // 푸시 설정
-          // SwitchListTile(
-          //   title: const Text('아침 푸시 설정'),
-          //   value: notificationEnable && morningPush,
-          //   onChanged: (value) => 
-          //   handlePushToggle(morningTopic, morningPushProvider, value, ref),
-          // ),
-          // SwitchListTile(
-          //   title: const Text('점심 푸시 설정'),
-          //   value: notificationEnable && lunchPush,
-          //   onChanged: (value) =>
-          //   handlePushToggle(lunchTopic, lunchPushProvider, value, ref),
-          // ),
-          // SwitchListTile(
-          //   title: const Text('저녁 푸시 설정'),
-          //   value: notificationEnable && eveningPush,
-          //   onChanged: (value) =>
-          //   handlePushToggle(eveningTopic, eveningPushProvider, value, ref),
-          // ),
-          // const Divider(),
+          // 푸시 설정
+          SwitchListTile(
+            title: const Text('푸시 설정'),
+            value: pushEnable,
+            onChanged: (value) => 
+            handlePushToggle(topic, value, ref),
+          ),
+          const Divider(),
 
           // // 글자 크기 조정
           // ListTile(
