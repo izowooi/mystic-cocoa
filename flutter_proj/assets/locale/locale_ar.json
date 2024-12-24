@@ -15,5 +15,7 @@
     "yearly_tarot_fortune": "حظ التاروت هذه السنة",
     "version_info": "معلومات الإصدار",
     "auto_play_video": "تشغيل الفيديو تلقائيًا",
-    "choose_card_back": "اختر ظهر البطاقة"
+    "choose_card_back": "اختر ظهر البطاقة",
+    "language_select": "اختيار اللغة",
+    "push_enable": "تفعيل إشعارات الدفع"
   }

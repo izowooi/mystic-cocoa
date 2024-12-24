@@ -15,5 +15,7 @@
     "yearly_tarot_fortune": "This Year's Tarot Fortune",
     "version_info": "Version Info",
     "auto_play_video": "Auto Play Video",
-    "choose_card_back": "Choose Card Back"
+    "choose_card_back": "Choose Card Back",
+    "language_select": "Language Selection",
+    "push_enable": "Enable Push Notifications"
   }

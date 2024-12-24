@@ -15,5 +15,7 @@
     "yearly_tarot_fortune": "今年塔罗运势",
     "version_info": "版本信息",
     "auto_play_video": "自动播放视频",
-    "choose_card_back": "选择卡片背面"
+    "choose_card_back": "选择卡片背面",
+    "language_select": "语言选择",
+    "push_enable": "启用推送通知"
   }

@@ -15,5 +15,7 @@
     "yearly_tarot_fortune": "올해의 타로 운세",
     "version_info": "버전 정보",
     "auto_play_video": "동영상 자동 재생",
-    "choose_card_back": "카드 뒷면 선택"
+    "choose_card_back": "카드 뒷면 선택",
+    "language_select": "언어 선택",
+    "push_enable": "푸시 활성화"
   }

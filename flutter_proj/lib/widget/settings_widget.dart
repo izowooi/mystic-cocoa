@@ -22,7 +22,7 @@ final cardBackProvider = StateProvider<int>((ref) {
 class SettingsWidget extends ConsumerWidget {
 
   SettingsWidget({Key? key}) : super(key: key);
-  final String topic = 'morning_utc9_kr';//ex) morning_utc-9_en
+  final String topic = 'aos_utc9_kr';//ex) morning_utc-9_en
 
   bool _isPermissionGranted = false;
 
@@ -97,7 +97,7 @@ class SettingsWidget extends ConsumerWidget {
       body: ListView(
         children: [
 ListTile(
-            title: Text(Localize().get('language')),
+            title: Text(Localize().get('language_select')),
           ),
           RadioListTile<String>(
             title: const Text('한국어'),
@@ -153,7 +153,7 @@ ListTile(
 
           // 푸시 설정
           SwitchListTile(
-            title: const Text('푸시 설정'),
+            title: Text(Localize().get('push_enable')),
             value: pushEnable,
             onChanged: (value) => 
             handlePushToggle(topic, value, ref),

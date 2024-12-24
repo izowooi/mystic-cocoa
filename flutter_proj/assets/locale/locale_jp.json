@@ -15,5 +15,7 @@
     "yearly_tarot_fortune": "今年のタロット運勢",
     "version_info": "バージョン情報",
     "auto_play_video": "ビデオの自動再生",
-    "choose_card_back": "カード裏面を選択"
+    "choose_card_back": "カード裏面を選択",
+    "language_select": "言語選択",
+    "push_enable": "プッシュ通知を有効にする"
   }
