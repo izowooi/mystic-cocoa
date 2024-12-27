@@ -92,13 +92,13 @@ if __name__ == "__main__":
 
     for language in valid_language:
         print(f"language: {language}, title: {title_dict[language][random_num]}, message: {message_dict[language]["00"]}")
-    #
-    #
-    # for utc_offset in utc_offsets:
-    #     for language in valid_language:
-    #         topic = f"aos_utc{utc_offset}_{language}"
-    #         title_text = title_dict[language][random_num]
-    #         message_text = message_dict[language][random_num]
-    #         print(f"utc_offset:{utc_offset}, topic: {topic}, title: {title_text}, message: {message_text}")
-    #         #"aos_utc{utc_offset}_kr")
-    #         #send_fcm_message(notification_title, notification_text, notification_image, notification_topic)
+
+
+    for utc_offset in utc_offsets:
+        for language in valid_language:
+            topic = f"aos_utc{utc_offset}_{language}"
+            title_text = title_dict[language][random_num]
+            message_text = message_dict[language][random_num]
+            print(f"utc_offset:{utc_offset}, topic: {topic}, title: {title_text}, message: {message_text}")
+            #"aos_utc{utc_offset}_kr")
+            send_fcm_message(title_text, message_text, notification_image, topic)
