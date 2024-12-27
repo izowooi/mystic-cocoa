@@ -22,7 +22,6 @@ final cardBackProvider = StateProvider<int>((ref) {
 class SettingsWidget extends ConsumerWidget {
 
   SettingsWidget({Key? key}) : super(key: key);
-  final String topic = 'aos_utc9_kr';//ex) morning_utc-9_en
 
   bool _isPermissionGranted = false;
 
@@ -87,7 +86,14 @@ class SettingsWidget extends ConsumerWidget {
     var videoEnable = ref.watch(userSettingsProvider).autoPlay;
     final selectedLanguage = ref.watch(userSettingsProvider).locale;
     final pushEnable = ref.watch(userSettingsProvider).push;
-    
+
+
+    // 현재 타임존 오프셋을 가져와서 UTC 오프셋을 계산
+    final timeZoneOffset = DateTime.now().timeZoneOffset;
+    final hoursOffset = timeZoneOffset.inHours;
+    //aos_utc9_ko, aos_utc-9_en
+    var topic = 'aos_utc${hoursOffset}_$selectedLanguage';
+
     _checkNotificationPermission(ref);
 
     return Scaffold(
