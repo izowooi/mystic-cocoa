@@ -104,6 +104,8 @@ class _TarotCardDescriptionState extends ConsumerState<TarotCardDescription>{
   @override
   Widget build(BuildContext context) {
     var autoPlay = ref.watch(userSettingsProvider).autoPlay;
+    final selectedLanguage = ref.watch(userSettingsProvider).locale;
+
     print('autoPlay: $autoPlay');
     return Card(
       key: ValueKey(widget.data.videoPath),
@@ -140,6 +142,8 @@ class _TarotCardDescriptionState extends ConsumerState<TarotCardDescription>{
             Text(
               widget.data.title,
               style: Theme.of(context).textTheme.titleMedium,
+              textAlign: selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
+
             ),
             const SizedBox(height: 8.0),
 
@@ -147,6 +151,7 @@ class _TarotCardDescriptionState extends ConsumerState<TarotCardDescription>{
             Text(
               widget.data.content,
               style: Theme.of(context).textTheme.bodyMedium,
+              textAlign: selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
             ),
           ],
         ),
