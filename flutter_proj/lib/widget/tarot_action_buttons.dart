@@ -7,25 +7,25 @@ class TarotActionButtons extends StatelessWidget {
   final VoidCallback onClearSelection;
 
   const TarotActionButtons({
-    Key? key,
+    super.key,
     required this.onShuffle,
     required this.selectedCards,
     required this.onClearSelection,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         // Spacer
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         // Buttons
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
               onPressed: onShuffle,
-              child: Text('셔플'),
+              child: const Text('셔플'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -47,7 +47,7 @@ class TarotActionButtons extends StatelessWidget {
           ],
         ),
         // Spacer
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
       ],
     );
   }

@@ -7,7 +7,7 @@ import 'package:mystic_cocoa/widget/loading_overlay.dart';
 import 'tarot_select_widget.dart';
 
 class MonthlyWidget extends ConsumerStatefulWidget {
-  MonthlyWidget({Key? key}) : super(key: key);
+  const MonthlyWidget({super.key});
 
   @override
   _MonthlyWidgetState createState() => _MonthlyWidgetState();

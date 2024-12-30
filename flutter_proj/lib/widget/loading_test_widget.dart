@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mystic_cocoa/widget/loading_widget.dart';
 
 class LoadingTestWidget extends StatelessWidget {
-  const LoadingTestWidget({Key? key}) : super(key: key);
+  const LoadingTestWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

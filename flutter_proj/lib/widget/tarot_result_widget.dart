@@ -12,8 +12,8 @@ class TarotResultWidget extends ConsumerStatefulWidget {
     required this.title,
     required this.titlePath,
     required this.cardDataList,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _TarotResultWidgetState createState() => _TarotResultWidgetState();
@@ -42,7 +42,7 @@ class _TarotResultWidgetState extends ConsumerState<TarotResultWidget> {
             ),
 
             // 사용자가 고른 카드 설명
-            ...widget.cardDataList.map((cardData) => TarotCardDescription(data: cardData)).toList(),
+            ...widget.cardDataList.map((cardData) => TarotCardDescription(data: cardData)),
           ],
         ),
       ),
@@ -55,8 +55,8 @@ class TarotCardDescription extends ConsumerStatefulWidget {
 
   const TarotCardDescription({
     required this.data,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _TarotCardDescriptionState createState() => _TarotCardDescriptionState();

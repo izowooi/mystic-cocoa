@@ -25,7 +25,7 @@ class TarotSelectWidget extends ConsumerStatefulWidget {
   final VoidCallback onShuffle;
   final int maxSelectableCards;
 
-  TarotSelectWidget({
+  const TarotSelectWidget({super.key, 
     required this.appBarTitle,
     required this.titlePath,
     required this.pickMessage,

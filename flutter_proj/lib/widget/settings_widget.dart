@@ -21,7 +21,7 @@ final cardBackProvider = StateProvider<int>((ref) {
 
 class SettingsWidget extends ConsumerWidget {
 
-  SettingsWidget({Key? key}) : super(key: key);
+  SettingsWidget({super.key});
 
   bool _isPermissionGranted = false;
 
@@ -225,7 +225,7 @@ ListTile(
           // 버전 정보
           ListTile(
             title: Text(Localize().get('version_info')),
-            subtitle: Text('1.0.0'),
+            subtitle: const Text('1.0.0'),
           ),
           const Divider(),
 

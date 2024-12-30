@@ -66,7 +66,7 @@ class DebugModes extends ChangeNotifier {
 }
 
 class LeftDrawerWidget extends ConsumerStatefulWidget {
-  LeftDrawerWidget({Key? key}) : super(key: key);
+  const LeftDrawerWidget({super.key});
 
   @override
   _LeftDrawerWidgetState createState() => _LeftDrawerWidgetState();

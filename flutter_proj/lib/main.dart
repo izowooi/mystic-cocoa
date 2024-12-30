@@ -70,10 +70,10 @@ class MainApp extends ConsumerWidget {
         return Scaffold(
         bottomNavigationBar: NavigationBar(
         destinations: [
-          NavigationDestination(icon: Icon(Icons.wb_sunny), label: Localize().get('today_fortune')),
-          NavigationDestination(icon: Icon(Icons.calendar_month), label: Localize().get('monthly_fortune')),
-          NavigationDestination(icon: Icon(Icons.timeline), label: Localize().get('yearly_fortune')),
-          NavigationDestination(icon: Icon(Icons.settings), label: Localize().get('settings')),
+          NavigationDestination(icon: const Icon(Icons.wb_sunny), label: Localize().get('today_fortune')),
+          NavigationDestination(icon: const Icon(Icons.calendar_month), label: Localize().get('monthly_fortune')),
+          NavigationDestination(icon: const Icon(Icons.timeline), label: Localize().get('yearly_fortune')),
+          NavigationDestination(icon: const Icon(Icons.settings), label: Localize().get('settings')),
         ],
         selectedIndex: currentPageIndex,
         indicatorColor: getSelectedItemColor(currentPageIndex),

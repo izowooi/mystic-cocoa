@@ -7,7 +7,7 @@ import 'package:mystic_cocoa/widget/loading_overlay.dart';
 import 'tarot_select_widget.dart';
 
 class TodayWidget extends ConsumerStatefulWidget {
-  TodayWidget({Key? key}) : super(key: key);
+  const TodayWidget({super.key});
 
   @override
   _TodayWidgetWidgetState createState() => _TodayWidgetWidgetState();
