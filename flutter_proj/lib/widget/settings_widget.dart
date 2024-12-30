@@ -94,6 +94,8 @@ class SettingsWidget extends ConsumerWidget {
     //aos_utc9_ko, aos_utc-9_en
     var topic = 'aos_utc${hoursOffset}_$selectedLanguage';
 
+    print('build()->topic: $topic');
+
     _checkNotificationPermission(ref);
 
     return Scaffold(
