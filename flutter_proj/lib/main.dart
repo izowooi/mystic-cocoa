@@ -83,7 +83,7 @@ class MainApp extends ConsumerWidget {
           },
         ),
         
-        drawer: LeftDrawerWidget(),
+        //drawer: LeftDrawerWidget(),
         body: IndexedStack(
           index: currentPageIndex,
           children: [
