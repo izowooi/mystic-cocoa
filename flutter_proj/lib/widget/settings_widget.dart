@@ -8,6 +8,7 @@ import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'dart:async';
 
 final languageProvider = StateProvider<String>((ref) {
   return "ko";
@@ -18,25 +19,41 @@ final fontSizeProvider = StateProvider<double>((ref) {
 final cardBackProvider = StateProvider<int>((ref) {
   return 0;
 });
+final supportThanksProvider = StateProvider<bool>((ref) => false);
 
 
-class SettingsWidget extends ConsumerWidget {
+class SettingsWidget extends ConsumerStatefulWidget {
+  SettingsWidget({super.key});
 
-  SettingsWidget({super.key}) {
-    print('=== SettingsWidget 초기화 ===');
-    _inAppPurchase.purchaseStream.listen(_listenToPurchaseUpdated);
-  }
+  @override
+  ConsumerState<SettingsWidget> createState() => _SettingsWidgetState();
+}
 
+class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
   bool _isPermissionGranted = false;
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   static const String _kBuyMeCoffeeId = 'buy_me_coffee_1000';
+  StreamSubscription<List<PurchaseDetails>>? _subscription;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _subscription?.cancel();
+    _subscription = _inAppPurchase.purchaseStream.listen(_listenToPurchaseUpdated);
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
 
   // 권한 상태 확인
-  Future<void> _checkNotificationPermission(WidgetRef ref) async {
+  Future<void> _checkNotificationPermission() async {
     _isPermissionGranted = await Permission.notification.isGranted;
   }
   
-  Future<bool> subscribeToTopic(String topic, WidgetRef ref) async{
+  Future<bool> subscribeToTopic(String topic) async{
     bool isPermissionGranted = await Permission.notification.isGranted;
     if(!isPermissionGranted){
       final state = await Permission.notification.request();
@@ -52,18 +69,18 @@ class SettingsWidget extends ConsumerWidget {
     return true;
   }
 
-  Future<void> unsubscribeFromTopic(String topic, WidgetRef ref) async{
+  Future<void> unsubscribeFromTopic(String topic) async{
     await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
   }
 
-  handlePushToggle(String pushTopic, bool value, WidgetRef ref) async{
+  handlePushToggle(String pushTopic, bool value) async{
     if(value){
       ref.read(userSettingsProvider.notifier).setPush(true);
-      bool subscribed = await subscribeToTopic(pushTopic, ref);
+      bool subscribed = await subscribeToTopic(pushTopic);
       ref.read(userSettingsProvider.notifier).setPush(subscribed);
     } else {
       ref.read(userSettingsProvider.notifier).setPush(false);
-      await unsubscribeFromTopic(pushTopic, ref);
+      await unsubscribeFromTopic(pushTopic);
     }
   }
 
@@ -79,7 +96,7 @@ class SettingsWidget extends ConsumerWidget {
     print("Custom event sent! end");
   }
   
-  void _changeLanguage(WidgetRef ref, String locale) async {
+  void _changeLanguage(String locale) async {
     await Localize().loadLocale(locale);
     TarotDataController().initialize(locale);
     ref.read(userSettingsProvider.notifier).setLocale(locale);
@@ -124,10 +141,8 @@ class SettingsWidget extends ConsumerWidget {
   void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
     print('=== 구매 상태 업데이트 ===');
     print('구매 상세 정보 수: ${purchaseDetailsList.length}');
-    
     for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
       print('구매 상태: ${purchaseDetails.status}');
-      
       if (purchaseDetails.status == PurchaseStatus.pending) {
         print('결제 대기 중...');
       } else if (purchaseDetails.status == PurchaseStatus.error) {
@@ -138,6 +153,12 @@ class SettingsWidget extends ConsumerWidget {
         print('Product ID: ${purchaseDetails.productID}');
         print('Purchase purchaseID: ${purchaseDetails.purchaseID}');
         print('Purchase verificationData: ${purchaseDetails.verificationData}');
+        print('Purchase Token: ${purchaseDetails.verificationData.serverVerificationData}');
+        print('Signed Data: ${purchaseDetails.verificationData.localVerificationData}');
+        print('Signature: ${purchaseDetails.verificationData.source}');
+        if (purchaseDetails.productID == _kBuyMeCoffeeId) {
+          ref.read(supportThanksProvider.notifier).state = true;
+        }
       }
       if (purchaseDetails.pendingCompletePurchase) {
         print('구매 완료 처리 중...');
@@ -146,8 +167,14 @@ class SettingsWidget extends ConsumerWidget {
     }
   }
 
+  Future<void> _restorePurchase() async {
+    print('=== 구매 복원 시작 ===');
+    await _inAppPurchase.restorePurchases();
+    // 복원 결과는 purchaseStream(_listenToPurchaseUpdated)에서 처리됨
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final fontSize = ref.watch(fontSizeProvider);
     final cardBack = ref.watch(userSettingsProvider).cardIndex; 
     var videoEnable = ref.watch(userSettingsProvider).autoPlay;
@@ -163,7 +190,7 @@ class SettingsWidget extends ConsumerWidget {
 
     print('build()->topic: $topic');
 
-    _checkNotificationPermission(ref);
+    _checkNotificationPermission();
 
     return Scaffold(
       appBar: AppBar(
@@ -180,7 +207,7 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(ref, value);
+                _changeLanguage(value);
               }
             },
           ),
@@ -190,7 +217,7 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(ref, value);
+                _changeLanguage(value);
               }
             },
           ),
@@ -200,7 +227,7 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(ref, value);
+                _changeLanguage(value);
               }
             },
           ),
@@ -210,7 +237,7 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(ref, value);
+                _changeLanguage(value);
               }
             },
           ),
@@ -220,7 +247,7 @@ ListTile(
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                _changeLanguage(ref, value);
+                _changeLanguage(value);
               }
             },
           ),
@@ -231,7 +258,7 @@ ListTile(
             title: Text(Localize().get('push_enable')),
             value: pushEnable,
             onChanged: (value) => 
-            handlePushToggle(topic, value, ref),
+            handlePushToggle(topic, value),
           ),
           const Divider(),
 
@@ -291,11 +318,30 @@ ListTile(
           ),
           // 버전 정보
           ListTile(
-            title: Text(Localize().get('version_info')),
+            title: Row(
+              children: [
+                Text(Localize().get('version_info')),
+                const SizedBox(width: 8),
+                if (ref.watch(supportThanksProvider))
+                  const Text('후원해주셔서 감사합니다.', style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold)),
+              ],
+            ),
             subtitle: const Text('1.0.0'),
           ),
           const Divider(),
 
+          // 구매 복원하기 버튼
+          ListTile(
+            title: const Text('구매 복원하기'),
+            subtitle: const Text('이전에 결제한 내역이 있다면 복원할 수 있습니다.'),
+            trailing: ElevatedButton(
+              onPressed: () {
+                print('=== 구매 복원하기 버튼 클릭 ===');
+                _restorePurchase();
+              },
+              child: const Text('복원하기'),
+            ),
+          ),
           // Buy Me a Coffee 버튼
           ListTile(
             title: const Text('Buy Me a Coffee'),
