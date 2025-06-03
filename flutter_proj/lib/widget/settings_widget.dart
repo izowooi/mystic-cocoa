@@ -131,6 +131,10 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
 
     try {
       print('구매 요청 시작...');
+      // buyNonConsumable() 함수는 구매 프로세스를 시작하고 구매 요청만 합니다.
+      // 실제 구매 완료(acknowledge)는 purchaseStream 리스너에서 처리됩니다.
+      // 이 함수는 구매 요청이 성공적으로 시작되었는지 여부만 반환합니다.
+      // 소비성 아이템이 아닌 경우에만 사용해야 합니다.
       await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
       print('구매 요청 완료');
     } catch (e) {
@@ -162,6 +166,10 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
       }
       if (purchaseDetails.pendingCompletePurchase) {
         print('구매 완료 처리 중...');
+        // completePurchase()는 구글 결제의 acknowledge(인정) 단계를 처리합니다.
+        // 구글 결제는 구매(purchase) -> 인정(acknowledge) -> 소모(consume) 3단계로 진행되며
+        // 이 함수 호출을 통해 구매 완료를 구글에 인정하게 됩니다.
+        // 인정되지 않은 구매는 3일 후 자동으로 환불됩니다.
         _inAppPurchase.completePurchase(purchaseDetails);
       }
     }
