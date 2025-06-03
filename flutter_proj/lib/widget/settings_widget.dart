@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:mystic_cocoa/notifier/user_settings_notifier.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 final languageProvider = StateProvider<String>((ref) {
   return "ko";
@@ -21,9 +22,14 @@ final cardBackProvider = StateProvider<int>((ref) {
 
 class SettingsWidget extends ConsumerWidget {
 
-  SettingsWidget({super.key});
+  SettingsWidget({super.key}) {
+    print('=== SettingsWidget 초기화 ===');
+    _inAppPurchase.purchaseStream.listen(_listenToPurchaseUpdated);
+  }
 
   bool _isPermissionGranted = false;
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  static const String _kBuyMeCoffeeId = 'buy_me_coffee_1000';
 
   // 권한 상태 확인
   Future<void> _checkNotificationPermission(WidgetRef ref) async {
@@ -77,6 +83,67 @@ class SettingsWidget extends ConsumerWidget {
     await Localize().loadLocale(locale);
     TarotDataController().initialize(locale);
     ref.read(userSettingsProvider.notifier).setLocale(locale);
+  }
+
+  Future<void> _buyCoffee() async {
+    print('=== 구매 프로세스 시작 ===');
+    print('상품 ID: $_kBuyMeCoffeeId');
+    
+    final ProductDetailsResponse response = await _inAppPurchase.queryProductDetails({_kBuyMeCoffeeId});
+    print('상품 조회 응답: ${response.productDetails.length}개의 상품 발견');
+    print('찾지 못한 상품: ${response.notFoundIDs}');
+    
+    if (response.notFoundIDs.isNotEmpty) {
+      print('상품을 찾을 수 없습니다: ${response.notFoundIDs}');
+      return;
+    }
+
+    if (response.productDetails.isEmpty) {
+      print('상품 정보가 없습니다.');
+      return;
+    }
+
+    print('상품 정보:');
+    print('- 상품명: ${response.productDetails.first.title}');
+    print('- 가격: ${response.productDetails.first.price}');
+    print('- 설명: ${response.productDetails.first.description}');
+
+    final PurchaseParam purchaseParam = PurchaseParam(
+      productDetails: response.productDetails.first,
+    );
+
+    try {
+      print('구매 요청 시작...');
+      await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
+      print('구매 요청 완료');
+    } catch (e) {
+      print('결제 중 오류 발생: $e');
+    }
+  }
+
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    print('=== 구매 상태 업데이트 ===');
+    print('구매 상세 정보 수: ${purchaseDetailsList.length}');
+    
+    for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
+      print('구매 상태: ${purchaseDetails.status}');
+      
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+        print('결제 대기 중...');
+      } else if (purchaseDetails.status == PurchaseStatus.error) {
+        print('결제 오류: ${purchaseDetails.error}');
+      } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+                 purchaseDetails.status == PurchaseStatus.restored) {
+        print('결제 완료!');
+        print('Product ID: ${purchaseDetails.productID}');
+        print('Purchase purchaseID: ${purchaseDetails.purchaseID}');
+        print('Purchase verificationData: ${purchaseDetails.verificationData}');
+      }
+      if (purchaseDetails.pendingCompletePurchase) {
+        print('구매 완료 처리 중...');
+        _inAppPurchase.completePurchase(purchaseDetails);
+      }
+    }
   }
 
   @override
@@ -229,6 +296,18 @@ ListTile(
           ),
           const Divider(),
 
+          // Buy Me a Coffee 버튼
+          ListTile(
+            title: const Text('Buy Me a Coffee'),
+            subtitle: const Text('개발자에게 커피 한 잔의 후원을 보내주세요!'),
+            trailing: ElevatedButton(
+              onPressed: () {
+                print('=== Buy Me a Coffee 버튼 클릭 ===');
+                _buyCoffee();
+              },
+              child: const Text('1,000원 후원하기'),
+            ),
+          ),
           // const Divider(),
           // ListTile(
           //   title: const Text('test button 1'),
